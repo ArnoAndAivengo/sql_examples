@@ -1,0 +1,96 @@
+Модуль 2
+Типы данных
+
+
+...
+age TINYINT
+...
+
+age TINYINT (3) -128 127
+
+беззнаковый режим
+age TINYINT UNSIGNED 0 - 255
+population SMALLINT,
+color MEDIUMINT,
+id INT,
+big BIGINT
+
+UNSIGNED - флаг без знаковости
+NOT NULL - нельзя не внести данные
+AUTO_INCREMENT - автоматическое увеличение
+UNIQUE - уникальные значения
+
+price FLOAT(8,2) 8 знаков всего, 2 - знаков после десятичного разделителя
+
+CHAR тип с фиксированной длинной хранения
+phone CHAR(10)  DEFAULT 'Ку, уууууу',
+cityname CHAR(30) COMMENT 'Название  городка',
+cityname VARCHAR(30) COMMENT 'Название  городка',
+
+CHAR максимум 255 знаков
+VARCHAR максимум 65000 знаков
+titlepage VARCHAR(150)
+description VARCHAR(300)
+indexpost CHAR(6)
+goods_caption VARCHAR
+
+
+
+BLOB = Binary Line OBject - файл произвольного формата - файлы, картинки, видео
+TEXT
+
+
+
+АНТИПРИМЕР с однобайтной кодировкой:
+`body` VARCHAR(10)
+хетчбэк 7байт
+седан 5байт
+купе 4байт
+универсал
+универсал 9байт
+универсал
+купе
+хетчбэк
+
+55байт + 8байт
+
+ПРИМЕР
+`body` ENUM('хетчбэк','седан','купе','универсал') = 7байт
+
+
+ENUM
+SET
+
+--------------------------
+
+ВРЕМЕННЫЕ ТИПЫ ДАННЫХ
+
+db DATE
+bd DATE DEFAULT '200-10-24'
+bd DATE CURRENT_DATE
+
+bd DATETIME - роддом
+startwork DATETIME приход на работу
+
+timecook TIME 2:20:10
+start_action TIME '1:00:00'
+
+paytime TIMESTAMP
+
+season YEAR
+
+
+ПРОСТРАНСТВЕННЫЕ ТИПЫ ДАННЫХ
+
+GEOLOCATION
+
+НОРМАЛЬНЫЕ ФОРМЫ И НОРМАЛИЗАЦИЯ
+
+Отношения
+один к одному
+один ко многим
+многие ко многим
+
+ПОКУПАТЕЛИ 1-МНОГО ЗАКАЗЫ
+
+СЛУШАТЕЛИ МНОГИЕ КО МНОГИМ ПРЕПОДЫ

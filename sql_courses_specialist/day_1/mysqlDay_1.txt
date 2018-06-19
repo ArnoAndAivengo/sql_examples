@@ -1,0 +1,312 @@
+mysql> SHOW DATABASES;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    35
+Current database: *** NONE ***
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+7 rows in set (0.03 sec)
+
+mysql> SELECT user();
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT user();
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    36
+Current database: *** NONE ***
+
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT database();
++------------+
+| database() |
++------------+
+| NULL       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW DATABASES;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    39
+Current database: *** NONE ***
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+7 rows in set (0.03 sec)
+
+mysql> use wall;
+Database changed
+mysql> SELECT database();
++------------+
+| database() |
++------------+
+| wall       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_wall |
++----------------+
+| messages       |
+| wall           |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> DESC wall
+    -> ^C
+mysql> DESC wall;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> 
+mysql> DESC wall;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    40
+Current database: wall
+
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| author      | varchar(170) | NO   |     | NULL    |       |
+| supporttype | int(11)      | NO   |     | NULL    |       |
+| msg         | varchar(170) | NO   |     | NULL    |       |
+| dt          | int(11)      | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.06 sec)
+
+mysql> SELECT '
+    '> ^C
+mysql> SELECT 'HELLO, WORLD!';
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    41
+Current database: wall
+
++---------------+
+| HELLO, WORLD! |
++---------------+
+| HELLO, WORLD! |
++---------------+
+1 row in set (0.03 sec)
+
+mysql> 
+mysql> \C
+ERROR: 
+Usage: \C charset_name | charset charset_name
+mysql> SELECT NOW();
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT NOW();
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    42
+Current database: wall
+
++---------------------+
+| NOW()               |
++---------------------+
+| 2018-06-18 12:18:12 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> delimiter 
+ERROR: 
+DELIMITER must be followed by a 'delimiter' character or string
+mysql> delimiter 
+ERROR: 
+DELIMITER must be followed by a 'delimiter' character or string
+mysql> delimiter  |
+mysql> SELECT NOW() |
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT NOW() |
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    43
+Current database: wall
+
++---------------------+
+| NOW()               |
++---------------------+
+| 2018-06-18 12:19:03 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT NOW()\G
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    44
+Current database: wall
+
+*************************** 1. row ***************************
+NOW(): 2018-06-18 12:24:29
+1 row in set (0.03 sec)
+
+mysql> \S
+ERROR: 
+Unknown command '\S'.
+    -> ^C
+mysql> \s
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> \s
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    45
+Current database: wall
+
+--------------
+
+Connection id:		45
+Current database:	wall
+Current user:		root@localhost
+SSL:			Cipher in use is DHE-RSA-AES256-SHA
+Using delimiter:	|
+Server version:		5.7.20 MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		localhost via TCP/IP
+Server characterset:	utf8
+Db     characterset:	utf8
+Client characterset:	cp866
+Conn.  characterset:	cp866
+TCP port:		3306
+Uptime:			1 hour 6 sec
+
+Threads: 1  Questions: 190  Slow queries: 0  Opens: 113  Flush tables: 1  Open tables: 28  Queries per second avg: 0.052
+--------------
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    46
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:30:35 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    47
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:31:30 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> chcp 65001
+    -> UTF-8
+    -> ^C
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    48
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:33:33 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> chcp utf-8
+    -> ^C
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    49
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:39:01 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    2
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:43:28 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> chcp 65001
+    -> 
+    -> 
+    -> ^C
+mysql> chcp 6500
+    -> ^C
+mysql> chcp 65001 (utf-8)
+    -> ^C
+mysql> chcp 65001;
+    -> ^C
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:46:13 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:47:22 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> exit
