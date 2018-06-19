@@ -1,0 +1,1318 @@
+mysql> SHOW DATABASES;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    35
+Current database: *** NONE ***
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+7 rows in set (0.03 sec)
+
+mysql> SELECT user();
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT user();
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    36
+Current database: *** NONE ***
+
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT database();
++------------+
+| database() |
++------------+
+| NULL       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW DATABASES;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    39
+Current database: *** NONE ***
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+7 rows in set (0.03 sec)
+
+mysql> use wall;
+Database changed
+mysql> SELECT database();
++------------+
+| database() |
++------------+
+| wall       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW TABLES;
++----------------+
+| Tables_in_wall |
++----------------+
+| messages       |
+| wall           |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> DESC wall
+    -> ^C
+mysql> DESC wall;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> 
+mysql> DESC wall;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    40
+Current database: wall
+
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| author      | varchar(170) | NO   |     | NULL    |       |
+| supporttype | int(11)      | NO   |     | NULL    |       |
+| msg         | varchar(170) | NO   |     | NULL    |       |
+| dt          | int(11)      | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.06 sec)
+
+mysql> SELECT '
+    '> ^C
+mysql> SELECT 'HELLO, WORLD!';
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    41
+Current database: wall
+
++---------------+
+| HELLO, WORLD! |
++---------------+
+| HELLO, WORLD! |
++---------------+
+1 row in set (0.03 sec)
+
+mysql> 
+mysql> \C
+ERROR: 
+Usage: \C charset_name | charset charset_name
+mysql> SELECT NOW();
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT NOW();
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    42
+Current database: wall
+
++---------------------+
+| NOW()               |
++---------------------+
+| 2018-06-18 12:18:12 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> delimiter 
+ERROR: 
+DELIMITER must be followed by a 'delimiter' character or string
+mysql> delimiter 
+ERROR: 
+DELIMITER must be followed by a 'delimiter' character or string
+mysql> delimiter  |
+mysql> SELECT NOW() |
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT NOW() |
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    43
+Current database: wall
+
++---------------------+
+| NOW()               |
++---------------------+
+| 2018-06-18 12:19:03 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT NOW()\G
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    44
+Current database: wall
+
+*************************** 1. row ***************************
+NOW(): 2018-06-18 12:24:29
+1 row in set (0.03 sec)
+
+mysql> \S
+ERROR: 
+Unknown command '\S'.
+    -> ^C
+mysql> \s
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> \s
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    45
+Current database: wall
+
+--------------
+
+Connection id:		45
+Current database:	wall
+Current user:		root@localhost
+SSL:			Cipher in use is DHE-RSA-AES256-SHA
+Using delimiter:	|
+Server version:		5.7.20 MySQL Community Server (GPL)
+Protocol version:	10
+Connection:		localhost via TCP/IP
+Server characterset:	utf8
+Db     characterset:	utf8
+Client characterset:	cp866
+Conn.  characterset:	cp866
+TCP port:		3306
+Uptime:			1 hour 6 sec
+
+Threads: 1  Questions: 190  Slow queries: 0  Opens: 113  Flush tables: 1  Open tables: 28  Queries per second avg: 0.052
+--------------
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    46
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:30:35 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    47
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:31:30 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> chcp 65001
+    -> UTF-8
+    -> ^C
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    48
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:33:33 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> chcp utf-8
+    -> ^C
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    49
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:39:01 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    2
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:43:28 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> chcp 65001
+    -> 
+    -> 
+    -> ^C
+mysql> chcp 6500
+    -> ^C
+mysql> chcp 65001 (utf-8)
+    -> ^C
+mysql> chcp 65001;
+    -> ^C
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:46:13 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> source C:\Users\alexo\Desktop\mysqlStudy\foo.sql
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4
+Current database: wall
+
++---------------------+
+| Дата/Время |
++---------------------+
+| 2018-06-18 12:47:22 |
++---------------------+
+1 row in set (0.03 sec)
+
+mysql> exit
+mysql>  CREATE DATABASE mydb1; CREATE DATABASE IF NOT EXISTS mydb1; CREATE DATABASE `моя база`; SHOW DATABASE;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    7
+Current database: *** NONE ***
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE' at line 1
+mysql> CREATE DATABASE mydb1; CREATE DATABASE IF NOT EXISTS mydb1; CREATE DATABASE `моя база`; SHOW DATABASE;
+ERROR 1007 (HY000): Can't create database 'mydb1'; database exists
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+ERROR 1007 (HY000): Can't create database 'моя база'; database exists
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE' at line 1
+mysql> SHOW DATABASE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE' at line 1
+mysql> SHOW DATABASE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| моя база           |
+| eshop              |
+| mydb1              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+9 rows in set (0.03 sec)
+
+mysql> DROP DATABASE `моя база`; SHOW DATABASE;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    8
+Current database: *** NONE ***
+
+Query OK, 0 rows affected (0.05 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASE' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mydb1              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> USE mydb1;  CREATE TABLE tb1 (     idtb1 INT PRIMARY KEY AUTO_INCREMENT,     title VARCHAR(20) DEFAULT 'название',     genre ENUM('классика', 'фантастика','боевик'),     dt DATETIME DEFAULT CURRENT_TIMESTAMP 
+No connection. Trying to reconnect...
+Connection id:    9
+Current database: *** NONE ***
+
+Database changed
+    -> ^C
+mysql> SHO DATABASES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SHO DATABASES' at line 1
+mysql> SHWO DATABASES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SHWO DATABASES' at line 1
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mydb1              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> USE mydb1;  CREATE TABLE tb1 (     idtb1 INT PRIMARY KEY AUTO_INCREMENT,     title VARCHAR(20) DEFAULT 'название',     genre ENUM('классика', 'фантастика','боевик'),     dt DATETIME DEFAULT CURRENT_TIMESTAMP );
+Database changed
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mydb1              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> DESC tb1;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> DESC tb1;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    10
+Current database: mydb1
+
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field | Type                                                           | Null | Key | Default           | Extra          |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1 | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title | varchar(20)                                                    | YES  |     | название          |                |
+| genre | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dt    | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+4 rows in set (0.04 sec)
+
+mysql> USE wall;
+No connection. Trying to reconnect...
+Connection id:    11
+Current database: *** NONE ***
+
+Database changed
+mysql> DESC wall;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| author      | varchar(170) | NO   |     | NULL    |       |
+| supporttype | int(11)      | NO   |     | NULL    |       |
+| msg         | varchar(170) | NO   |     | NULL    |       |
+| dt          | int(11)      | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql>  CREATE TABLE tb2 AS SELECT * FROM wall.author LIMIT 10; DESC tb2;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    12
+Current database: wall
+
+ERROR 1146 (42S02): Table 'wall.tb2' doesn't exist
+mysql> CREATE TABLE tb2 AS SELECT * FROM wall.author LIMIT 10; DESC tb2;
+ERROR 1146 (42S02): Table 'wall.author' doesn't exist
+ERROR 1146 (42S02): Table 'wall.tb2' doesn't exist
+mysql> SHOW DATABASES;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SHOW DATABASES;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    13
+Current database: wall
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| eshop              |
+| mydb1              |
+| mysql              |
+| performance_schema |
+| sys                |
+| wall               |
+| wordpress          |
++--------------------+
+8 rows in set (0.03 sec)
+
+mysql> USE mydb1;
+Database changed
+mysql> DESC wall;
+ERROR 1146 (42S02): Table 'mydb1.wall' doesn't exist
+mysql> 
+mysql> DESC mydb1;
+ERROR 1146 (42S02): Table 'mydb1.mydb1' doesn't exist
+mysql> DESC mydb1;
+ERROR 1146 (42S02): Table 'mydb1.mydb1' doesn't exist
+mysql> DESC tb1;
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field | Type                                                           | Null | Key | Default           | Extra          |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1 | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title | varchar(20)                                                    | YES  |     | название          |                |
+| genre | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dt    | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> USE wall;
+Database changed
+mysql> DESC author;
+ERROR 1146 (42S02): Table 'wall.author' doesn't exist
+mysql> DESC author;
+ERROR 1146 (42S02): Table 'wall.author' doesn't exist
+mysql> DESC tb1;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> DESC tb1;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    14
+Current database: wall
+
+ERROR 1146 (42S02): Table 'wall.tb1' doesn't exist
+mysql> Use mydb1;
+Database changed
+mysql> DESC tb1;
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field | Type                                                           | Null | Key | Default           | Extra          |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1 | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title | varchar(20)                                                    | YES  |     | название          |                |
+| genre | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dt    | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> DESC tb2;
+ERROR 1146 (42S02): Table 'mydb1.tb2' doesn't exist
+mysql> DESC tb2;
+ERROR 1146 (42S02): Table 'mydb1.tb2' doesn't exist
+mysql> Use wall;
+No connection. Trying to reconnect...
+Connection id:    15
+Current database: *** NONE ***
+
+Database changed
+mysql> DESC author;
+ERROR 1146 (42S02): Table 'wall.author' doesn't exist
+mysql> DESC msg;
+ERROR 1146 (42S02): Table 'wall.msg' doesn't exist
+mysql> DESC msg;
+ERROR 1146 (42S02): Table 'wall.msg' doesn't exist
+mysql> USE mydb1;
+No connection. Trying to reconnect...
+Connection id:    53
+Current database: *** NONE ***
+
+Database changed
+mysql> CREATE TABLE tb1 (     idtb1 INT PRIMARY KEY AUTO_INCREMENT,     title VARCHAR(20) DEFAULT 'название',     genre ENUM('классика', 'фантастика','боевик'),     dt DATETIME DEFAULT CURRENT_TIMESTAMP );  DESC tb1;
+ERROR 1050 (42S01): Table 'tb1' already exists
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field | Type                                                           | Null | Key | Default           | Extra          |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1 | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title | varchar(20)                                                    | YES  |     | название          |                |
+| genre | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dt    | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE tb2 AS SELECT * FROM wall.messages LIMIT 10; DESC tb2; SHOW COLUMNS FROM tb2; SHOW FULL COLUMNS FROM tb2;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    80
+Current database: mydb1
+
+ERROR 1146 (42S02): Table 'mydb1.tb2' doesn't exist
+ERROR 1146 (42S02): Table 'mydb1.tb2' doesn't exist
+ERROR 1146 (42S02): Table 'mydb1.tb2' doesn't exist
+mysql> CREATE TABLE tb2 AS SELECT * FROM wall.messages LIMIT 10; DESC tb2; SHOW COLUMNS FROM tb2; SHOW FULL COLUMNS FROM tb2;
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int(11)      | NO   |     | 0       |       |
+| author      | varchar(30)  | YES  |     | NULL    |       |
+| supporttype | varchar(10)  | YES  |     | NULL    |       |
+| msg         | varchar(255) | YES  |     | NULL    |       |
+| dt          | int(11)      | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| id          | int(11)      | NO   |     | 0       |       |
+| author      | varchar(30)  | YES  |     | NULL    |       |
+| supporttype | varchar(10)  | YES  |     | NULL    |       |
+| msg         | varchar(255) | YES  |     | NULL    |       |
+| dt          | int(11)      | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
++-------------+--------------+-----------------+------+-----+---------+-------+---------------------------------+---------+
+| Field       | Type         | Collation       | Null | Key | Default | Extra | Privileges                      | Comment |
++-------------+--------------+-----------------+------+-----+---------+-------+---------------------------------+---------+
+| id          | int(11)      | NULL            | NO   |     | 0       |       | select,insert,update,references |         |
+| author      | varchar(30)  | utf8_general_ci | YES  |     | NULL    |       | select,insert,update,references |         |
+| supporttype | varchar(10)  | utf8_general_ci | YES  |     | NULL    |       | select,insert,update,references |         |
+| msg         | varchar(255) | utf8_general_ci | YES  |     | NULL    |       | select,insert,update,references |         |
+| dt          | int(11)      | NULL            | YES  |     | NULL    |       | select,insert,update,references |         |
++-------------+--------------+-----------------+------+-----+---------+-------+---------------------------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM tb2;
++----+--------------------+------------------+----------------+------------+
+| id | author             | supporttype      | msg            | dt         |
++----+--------------------+------------------+----------------+------------+
+|  2 | Вася               | NULL             | Привет         | 1528198993 |
+|  3 | Nikolas            | оплата           | hi             | 1528199072 |
+|  4 | Петя               | доставка         | Пока           | 1528199072 |
+|  5 | Анна               | доставка         | Пока           | 1528199072 |
+|  6 | Екатерина          | оплата           | хорошее        | 1528200309 |
++----+--------------------+------------------+----------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE tb3 LIKE wall.messages; DESC tb3; SELECT * FROM tb3;
+Query OK, 0 rows affected (0.02 sec)
+
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| author      | varchar(30)  | YES  |     | NULL    |                |
+| supporttype | varchar(10)  | YES  |     | NULL    |                |
+| msg         | varchar(255) | YES  |     | NULL    |                |
+| dt          | int(11)      | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+Empty set (0.00 sec)
+
+mysql> CREATE TEMPORARY TABLE tb4 LIKE wall.messages; DESC tb3; SELECT * FROM tb4; SHOW TABLES;
+Query OK, 0 rows affected (0.00 sec)
+
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| author      | varchar(30)  | YES  |     | NULL    |                |
+| supporttype | varchar(10)  | YES  |     | NULL    |                |
+| msg         | varchar(255) | YES  |     | NULL    |                |
+| dt          | int(11)      | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+Empty set (0.00 sec)
+
++-----------------+
+| Tables_in_mydb1 |
++-----------------+
+| tb1             |
+| tb2             |
+| tb3             |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> \r
+Connection id:    121
+Current database: mydb1
+
+mysql> 
+mysql> ALTER TABLE tb1 MODIFY title VARCHAR(50) COMMENT 'название', ADD COLUMN description VARCHAR(100) NOT NULL AFTER title, CHANGE dt dtime DATETIME DEFAULT CURRENT_TIMESTAMP;  DESC tb1;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    122
+Current database: mydb1
+
+Query OK, 0 rows affected (0.11 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field       | Type                                                           | Null | Key | Default           | Extra          |
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1       | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title       | varchar(50)                                                    | YES  |     | NULL              |                |
+| description | varchar(100)                                                   | NO   |     | NULL              |                |
+| genre       | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dtime       | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> USE INFORMATION_SCHEMA
+No connection. Trying to reconnect...
+Connection id:    123
+Current database: *** NONE ***
+
+Database changed
+mysql> SHOW TABLES;
++---------------------------------------+
+| Tables_in_information_schema          |
++---------------------------------------+
+| CHARACTER_SETS                        |
+| COLLATIONS                            |
+| COLLATION_CHARACTER_SET_APPLICABILITY |
+| COLUMNS                               |
+| COLUMN_PRIVILEGES                     |
+| ENGINES                               |
+| EVENTS                                |
+| FILES                                 |
+| GLOBAL_STATUS                         |
+| GLOBAL_VARIABLES                      |
+| KEY_COLUMN_USAGE                      |
+| OPTIMIZER_TRACE                       |
+| PARAMETERS                            |
+| PARTITIONS                            |
+| PLUGINS                               |
+| PROCESSLIST                           |
+| PROFILING                             |
+| REFERENTIAL_CONSTRAINTS               |
+| ROUTINES                              |
+| SCHEMATA                              |
+| SCHEMA_PRIVILEGES                     |
+| SESSION_STATUS                        |
+| SESSION_VARIABLES                     |
+| STATISTICS                            |
+| TABLES                                |
+| TABLESPACES                           |
+| TABLE_CONSTRAINTS                     |
+| TABLE_PRIVILEGES                      |
+| TRIGGERS                              |
+| USER_PRIVILEGES                       |
+| VIEWS                                 |
+| INNODB_LOCKS                          |
+| INNODB_TRX                            |
+| INNODB_SYS_DATAFILES                  |
+| INNODB_FT_CONFIG                      |
+| INNODB_SYS_VIRTUAL                    |
+| INNODB_CMP                            |
+| INNODB_FT_BEING_DELETED               |
+| INNODB_CMP_RESET                      |
+| INNODB_CMP_PER_INDEX                  |
+| INNODB_CMPMEM_RESET                   |
+| INNODB_FT_DELETED                     |
+| INNODB_BUFFER_PAGE_LRU                |
+| INNODB_LOCK_WAITS                     |
+| INNODB_TEMP_TABLE_INFO                |
+| INNODB_SYS_INDEXES                    |
+| INNODB_SYS_TABLES                     |
+| INNODB_SYS_FIELDS                     |
+| INNODB_CMP_PER_INDEX_RESET            |
+| INNODB_BUFFER_PAGE                    |
+| INNODB_FT_DEFAULT_STOPWORD            |
+| INNODB_FT_INDEX_TABLE                 |
+| INNODB_FT_INDEX_CACHE                 |
+| INNODB_SYS_TABLESPACES                |
+| INNODB_METRICS                        |
+| INNODB_SYS_FOREIGN_COLS               |
+| INNODB_CMPMEM                         |
+| INNODB_BUFFER_POOL_STATS              |
+| INNODB_SYS_COLUMNS                    |
+| INNODB_SYS_FOREIGN                    |
+| INNODB_SYS_TABLESTATS                 |
++---------------------------------------+
+61 rows in set (0.00 sec)
+
+mysql> 
+mysql> DESC columns;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> DESC columns;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    124
+Current database: INFORMATION_SCHEMA
+
++--------------------------+---------------------+------+-----+---------+-------+
+| Field                    | Type                | Null | Key | Default | Extra |
++--------------------------+---------------------+------+-----+---------+-------+
+| TABLE_CATALOG            | varchar(512)        | NO   |     |         |       |
+| TABLE_SCHEMA             | varchar(64)         | NO   |     |         |       |
+| TABLE_NAME               | varchar(64)         | NO   |     |         |       |
+| COLUMN_NAME              | varchar(64)         | NO   |     |         |       |
+| ORDINAL_POSITION         | bigint(21) unsigned | NO   |     | 0       |       |
+| COLUMN_DEFAULT           | longtext            | YES  |     | NULL    |       |
+| IS_NULLABLE              | varchar(3)          | NO   |     |         |       |
+| DATA_TYPE                | varchar(64)         | NO   |     |         |       |
+| CHARACTER_MAXIMUM_LENGTH | bigint(21) unsigned | YES  |     | NULL    |       |
+| CHARACTER_OCTET_LENGTH   | bigint(21) unsigned | YES  |     | NULL    |       |
+| NUMERIC_PRECISION        | bigint(21) unsigned | YES  |     | NULL    |       |
+| NUMERIC_SCALE            | bigint(21) unsigned | YES  |     | NULL    |       |
+| DATETIME_PRECISION       | bigint(21) unsigned | YES  |     | NULL    |       |
+| CHARACTER_SET_NAME       | varchar(32)         | YES  |     | NULL    |       |
+| COLLATION_NAME           | varchar(32)         | YES  |     | NULL    |       |
+| COLUMN_TYPE              | longtext            | NO   |     | NULL    |       |
+| COLUMN_KEY               | varchar(3)          | NO   |     |         |       |
+| EXTRA                    | varchar(30)         | NO   |     |         |       |
+| PRIVILEGES               | varchar(80)         | NO   |     |         |       |
+| COLUMN_COMMENT           | varchar(1024)       | NO   |     |         |       |
+| GENERATION_EXPRESSION    | longtext            | NO   |     | NULL    |       |
++--------------------------+---------------------+------+-----+---------+-------+
+21 rows in set (0.04 sec)
+
+mysql> DESC columns\G
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> DESC columns\G
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    125
+Current database: INFORMATION_SCHEMA
+
+*************************** 1. row ***************************
+  Field: TABLE_CATALOG
+   Type: varchar(512)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 2. row ***************************
+  Field: TABLE_SCHEMA
+   Type: varchar(64)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 3. row ***************************
+  Field: TABLE_NAME
+   Type: varchar(64)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 4. row ***************************
+  Field: COLUMN_NAME
+   Type: varchar(64)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 5. row ***************************
+  Field: ORDINAL_POSITION
+   Type: bigint(21) unsigned
+   Null: NO
+    Key: 
+Default: 0
+  Extra: 
+*************************** 6. row ***************************
+  Field: COLUMN_DEFAULT
+   Type: longtext
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 7. row ***************************
+  Field: IS_NULLABLE
+   Type: varchar(3)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 8. row ***************************
+  Field: DATA_TYPE
+   Type: varchar(64)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 9. row ***************************
+  Field: CHARACTER_MAXIMUM_LENGTH
+   Type: bigint(21) unsigned
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 10. row ***************************
+  Field: CHARACTER_OCTET_LENGTH
+   Type: bigint(21) unsigned
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 11. row ***************************
+  Field: NUMERIC_PRECISION
+   Type: bigint(21) unsigned
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 12. row ***************************
+  Field: NUMERIC_SCALE
+   Type: bigint(21) unsigned
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 13. row ***************************
+  Field: DATETIME_PRECISION
+   Type: bigint(21) unsigned
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 14. row ***************************
+  Field: CHARACTER_SET_NAME
+   Type: varchar(32)
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 15. row ***************************
+  Field: COLLATION_NAME
+   Type: varchar(32)
+   Null: YES
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 16. row ***************************
+  Field: COLUMN_TYPE
+   Type: longtext
+   Null: NO
+    Key: 
+Default: NULL
+  Extra: 
+*************************** 17. row ***************************
+  Field: COLUMN_KEY
+   Type: varchar(3)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 18. row ***************************
+  Field: EXTRA
+   Type: varchar(30)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 19. row ***************************
+  Field: PRIVILEGES
+   Type: varchar(80)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 20. row ***************************
+  Field: COLUMN_COMMENT
+   Type: varchar(1024)
+   Null: NO
+    Key: 
+Default: 
+  Extra: 
+*************************** 21. row ***************************
+  Field: GENERATION_EXPRESSION
+   Type: longtext
+   Null: NO
+    Key: 
+Default: NULL
+  Extra: 
+21 rows in set (0.04 sec)
+
+mysql> DESC columns\Gкомментов
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+    -> SELECT COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, IS _NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA = 'mydb1' AND TABLE_NAME = 'tb1';
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    126
+Current database: INFORMATION_SCHEMA
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'комментов
+SELECT COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, IS _NULLABLE' at line 1
+mysql> SELECT COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, IS _NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA = 'mydb1' AND TABLE_NAME = 'tb1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IS _NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA ' at line 1
+mysql> USE information_schema  SHOW TABLES;  DESC columns;
+No connection. Trying to reconnect...
+Connection id:    145
+Current database: *** NONE ***
+
+Database changed
++--------------------------+---------------------+------+-----+---------+-------+
+| Field                    | Type                | Null | Key | Default | Extra |
++--------------------------+---------------------+------+-----+---------+-------+
+| TABLE_CATALOG            | varchar(512)        | NO   |     |         |       |
+| TABLE_SCHEMA             | varchar(64)         | NO   |     |         |       |
+| TABLE_NAME               | varchar(64)         | NO   |     |         |       |
+| COLUMN_NAME              | varchar(64)         | NO   |     |         |       |
+| ORDINAL_POSITION         | bigint(21) unsigned | NO   |     | 0       |       |
+| COLUMN_DEFAULT           | longtext            | YES  |     | NULL    |       |
+| IS_NULLABLE              | varchar(3)          | NO   |     |         |       |
+| DATA_TYPE                | varchar(64)         | NO   |     |         |       |
+| CHARACTER_MAXIMUM_LENGTH | bigint(21) unsigned | YES  |     | NULL    |       |
+| CHARACTER_OCTET_LENGTH   | bigint(21) unsigned | YES  |     | NULL    |       |
+| NUMERIC_PRECISION        | bigint(21) unsigned | YES  |     | NULL    |       |
+| NUMERIC_SCALE            | bigint(21) unsigned | YES  |     | NULL    |       |
+| DATETIME_PRECISION       | bigint(21) unsigned | YES  |     | NULL    |       |
+| CHARACTER_SET_NAME       | varchar(32)         | YES  |     | NULL    |       |
+| COLLATION_NAME           | varchar(32)         | YES  |     | NULL    |       |
+| COLUMN_TYPE              | longtext            | NO   |     | NULL    |       |
+| COLUMN_KEY               | varchar(3)          | NO   |     |         |       |
+| EXTRA                    | varchar(30)         | NO   |     |         |       |
+| PRIVILEGES               | varchar(80)         | NO   |     |         |       |
+| COLUMN_COMMENT           | varchar(1024)       | NO   |     |         |       |
+| GENERATION_EXPRESSION    | longtext            | NO   |     | NULL    |       |
++--------------------------+---------------------+------+-----+---------+-------+
+21 rows in set (0.00 sec)
+
+mysql> SELECT COLUMN_NAME, COLUMN_TYPE, EXTRA, COLUMN_DEFAULT, IS _NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA = 'mydb1' AND TABLE_NAME = 'tb1';
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT COLUMN_NAME, COLUMN_TYPE, EXTRA, COLUMN_DEFAULT, IS _NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA = 'mydb1' AND TABLE_NAME = 'tb1';
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    146
+Current database: information_schema
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IS _NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA ' at line 1
+mysql> SELECT COLUMN_NAME, COLUMN_TYPE, EXTRA, COLUMN_DEFAULT, IS_NULLABLE, COLUMN_COMMENT FROM information_schema.columns WHERE TABLE_SCHEMA = 'mydb1' AND TABLE_NAME = 'tb1';
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    147
+Current database: information_schema
+
++-------------+----------------------------------------------------------------+----------------+-------------------+-------------+------------------+
+| COLUMN_NAME | COLUMN_TYPE                                                    | EXTRA          | COLUMN_DEFAULT    | IS_NULLABLE | COLUMN_COMMENT   |
++-------------+----------------------------------------------------------------+----------------+-------------------+-------------+------------------+
+| idtb1       | int(11)                                                        | auto_increment | NULL              | NO          |                  |
+| title       | varchar(50)                                                    |                | NULL              | YES         | название         |
+| description | varchar(100)                                                   |                | NULL              | NO          |                  |
+| genre       | enum('классика','фантастика','боевик')                         |                | NULL              | YES         |                  |
+| dtime       | datetime                                                       |                | CURRENT_TIMESTAMP | YES         |                  |
++-------------+----------------------------------------------------------------+----------------+-------------------+-------------+------------------+
+5 rows in set (0.03 sec)
+
+mysql> USE mydb1; CREATE INDEX ix_title ON tb1 (title); DESC tb1;s
+No connection. Trying to reconnect...
+Connection id:    152
+Current database: *** NONE ***
+
+Database changed
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field       | Type                                                           | Null | Key | Default           | Extra          |
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1       | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title       | varchar(50)                                                    | YES  | MUL | NULL              |                |
+| description | varchar(100)                                                   | NO   |     | NULL              |                |
+| genre       | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dtime       | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+5 rows in set (0.00 sec)
+
+    -> ^C
+mysql> SHOW CREATE TABLE tb1;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    153
+Current database: mydb1
+
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                                        |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| tb1   | CREATE TABLE `tb1` (
+  `idtb1` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL COMMENT 'название',
+  `description` varchar(100) NOT NULL,
+  `genre` enum('классика','фантастика','боевик') DEFAULT NULL,
+  `dtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idtb1`),
+  KEY `ix_title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8                                 |
++-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.03 sec)
+
+mysql>       USE mydb1; CREATE INDEX ix_title ON tb1 (title); DROP INDEX ix_title; ON tb1; DESC tb1;
+No connection. Trying to reconnect...
+Connection id:    154
+Current database: *** NONE ***
+
+Database changed
+ERROR 1061 (42000): Duplicate key name 'ix_title'
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ON tb1' at line 1
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| Field       | Type                                                           | Null | Key | Default           | Extra          |
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+| idtb1       | int(11)                                                        | NO   | PRI | NULL              | auto_increment |
+| title       | varchar(50)                                                    | YES  | MUL | NULL              |                |
+| description | varchar(100)                                                   | NO   |     | NULL              |                |
+| genre       | enum('классика','фантастика','боевик')                         | YES  |     | NULL              |                |
+| dtime       | datetime                                                       | YES  |     | CURRENT_TIMESTAMP |                |
++-------------+----------------------------------------------------------------+------+-----+-------------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO tb1 VALUES (23,'PHP7','Учим PHP','фантастика', NOW()); INSERT INTO tb1 VALUES (NULL,'JavaScript','фантастика','2016-12-09 10:42:46');
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    155
+Current database: mydb1
+
+Query OK, 1 row affected (0.04 sec)
+
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO tb1 VALUES (23,'PHP7','Учим PHP','фантастика', NOW()); INSERT INTO tb1 VALUES (NULL,'JavaScript','фантастика','2016-12-09 10:42:46');
+ERROR 1062 (23000): Duplicate entry '23' for key 'PRIMARY'
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SELECT * FROM tb1;
++-------+-------+--------------+----------------------+---------------------+
+| idtb1 | title | description  | genre                | dtime               |
++-------+-------+--------------+----------------------+---------------------+
+|    23 | PHP7  | Учим PHP     | фантастика           | 2018-06-19 15:29:16 |
++-------+-------+--------------+----------------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO tb1 VALUES (23,'PHP7','Учим PHP','фантастика', NOW()); INSERT INTO tb1 VALUES (NULL,'JavaScript','','фантастика','2016-12-09 10:42:46');
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    156
+Current database: mydb1
+
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM tb1;
++-------+------------+--------------+----------------------+---------------------+
+| idtb1 | title      | description  | genre                | dtime               |
++-------+------------+--------------+----------------------+---------------------+
+|    23 | PHP7       | Учим PHP     | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript |              | фантастика           | 2016-12-09 10:42:46 |
++-------+------------+--------------+----------------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO tb1(title,description) VALUES ('MySQL','Супер книга по MySQL');
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    157
+Current database: mydb1
+
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * FROM tb1;
++-------+------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title      | description                      | genre                | dtime               |
++-------+------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
++-------+------------+----------------------------------+----------------------+---------------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'); VALUES ('jQuery','Library for UI'); VALUES ('Pixi js','2D Library for UI');
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    158
+Current database: mydb1
+
+Query OK, 1 row affected (0.03 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('jQuery','Library for UI')' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('Pixi js','2D Library for UI')' at line 1
+mysql> SELECT * FROM tb1;
++-------+------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title      | description                      | genre                | dtime               |
++-------+------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
+|    26 | React      | Library for UI                   | NULL                 | 2018-06-19 15:40:33 |
++-------+------------+----------------------------------+----------------------+---------------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'); VALUES ('jQuery','3D Library for UI'); VALUES ('Pixi js','2D Library for UI');
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    159
+Current database: mydb1
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('jQuery','3D Library for UI')' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('Pixi js','2D Library for UI')' at line 1
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'); VALUES ('jQuery','3D Library for UI'); VALUES ('Pixi js','2D Library for UI');
+Query OK, 1 row affected (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('jQuery','3D Library for UI')' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('Pixi js','2D Library for UI')' at line 1
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'), VALUES ('jQuery','3D Library for UI'), VALUES ('Pixi js','2D Library for UI');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('jQuery','3D Library for UI'), VALUES ('Pixi js','2D Library for UI')' at line 1
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'), VALUES ('jQuery','3D Library for UI'), VALUES ('Pixi js','2D Library for UI');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ('jQuery','3D Library for UI'), VALUES ('Pixi js','2D Library for UI')' at line 1
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'), ('jQuery','3D Library for UI'), ('Pixi js','2D Library for UI');
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> INSERT INTO tb1(title,description) VALUES ('React','Library for UI'), ('jQuery','3D Library for UI'), ('Pixi js','2D Library for UI');
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    160
+Current database: mydb1
+
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM tb1;
++-------+------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title      | description                      | genre                | dtime               |
++-------+------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
+|    26 | React      | Library for UI                   | NULL                 | 2018-06-19 15:40:33 |
+|    27 | React      | Library for UI                   | NULL                 | 2018-06-19 15:41:16 |
+|    28 | React      | Library for UI                   | NULL                 | 2018-06-19 15:42:29 |
+|    29 | jQuery     | 3D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    30 | Pixi js    | 2D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
++-------+------------+----------------------------------+----------------------+---------------------+
+8 rows in set (0.00 sec)
+
+mysql> select 26 delete;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delete' at line 1
+mysql> SELECT 26 DELETE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELETE' at line 1
+mysql> INSERT IGNORE INTO tb1(title,description) VALUES (23, 'PHP7','about all'), (50, 'Кулинария','Library for workhouse'), (51, 'Пироговедение', 'туториал');
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    161
+Current database: mydb1
+
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SELECT 26 DELETE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELETE' at line 1
+mysql> SELECT * FROM tb1;
++-------+------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title      | description                      | genre                | dtime               |
++-------+------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
+|    26 | React      | Library for UI                   | NULL                 | 2018-06-19 15:40:33 |
+|    27 | React      | Library for UI                   | NULL                 | 2018-06-19 15:41:16 |
+|    28 | React      | Library for UI                   | NULL                 | 2018-06-19 15:42:29 |
+|    29 | jQuery     | 3D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    30 | Pixi js    | 2D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
++-------+------------+----------------------------------+----------------------+---------------------+
+8 rows in set (0.00 sec)
+
+mysql> INSERT IGNORE INTO tb1(idtb1,title,description) VALUES (23, 'PHP7','about all'), (50, 'Кулинария','Library for workhouse'), (51, 'Пироговедение', 'туториал');
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> INSERT IGNORE INTO tb1(idtb1,title,description) VALUES (23, 'PHP7','about all'), (50, 'Кулинария','Library for workhouse'), (51, 'Пироговедение', 'туториал');
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    162
+Current database: mydb1
+
+Query OK, 2 rows affected, 1 warning (0.03 sec)
+Records: 3  Duplicates: 1  Warnings: 1
+
+mysql> SELECT * FROM tb1;
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title                      | description                      | genre                | dtime               |
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7                       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript                 |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL                      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
+|    26 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:40:33 |
+|    27 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:41:16 |
+|    28 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:42:29 |
+|    29 | jQuery                     | 3D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    30 | Pixi js                    | 2D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    50 | Кулинария                  | Library for workhouse            | NULL                 | 2018-06-19 15:49:53 |
+|    51 | Пироговедение              | туториал                         | NULL                 | 2018-06-19 15:49:53 |
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM tb1;INSERT INTO tb1(title,description) SELECT 'user', user FROM mysql.user;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    163
+Current database: mydb1
+
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title                      | description                      | genre                | dtime               |
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7                       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript                 |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL                      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
+|    26 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:40:33 |
+|    27 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:41:16 |
+|    28 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:42:29 |
+|    29 | jQuery                     | 3D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    30 | Pixi js                    | 2D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    50 | Кулинария                  | Library for workhouse            | NULL                 | 2018-06-19 15:49:53 |
+|    51 | Пироговедение              | туториал                         | NULL                 | 2018-06-19 15:49:53 |
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+10 rows in set (0.03 sec)
+
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM tb1;
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+| idtb1 | title                      | description                      | genre                | dtime               |
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+|    23 | PHP7                       | Учим PHP                         | фантастика           | 2018-06-19 15:29:16 |
+|    24 | JavaScript                 |                                  | фантастика           | 2016-12-09 10:42:46 |
+|    25 | MySQL                      | Супер книга по MySQL             | NULL                 | 2018-06-19 15:36:09 |
+|    26 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:40:33 |
+|    27 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:41:16 |
+|    28 | React                      | Library for UI                   | NULL                 | 2018-06-19 15:42:29 |
+|    29 | jQuery                     | 3D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    30 | Pixi js                    | 2D Library for UI                | NULL                 | 2018-06-19 15:42:29 |
+|    50 | Кулинария                  | Library for workhouse            | NULL                 | 2018-06-19 15:49:53 |
+|    51 | Пироговедение              | туториал                         | NULL                 | 2018-06-19 15:49:53 |
+|    52 | user                       | mysql                            | NULL                 | 2018-06-19 15:53:29 |
+|    53 | user                       | root                             | NULL                 | 2018-06-19 15:53:29 |
+|    54 | user                       | mysql.sys                        | NULL                 | 2018-06-19 15:53:29 |
++-------+----------------------------+----------------------------------+----------------------+---------------------+
+13 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!

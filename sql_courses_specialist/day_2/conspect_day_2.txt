@@ -1,0 +1,161 @@
+SQL - язык манипулирования данных
+
+Операторы определения данных
+CREATE создание
+DROP удаление
+ALTER модификация
+Не вставка, удаление и обновление самих данных в таблицах
+
+Операторы манипуляции данными CRUD - CREATE READ UPDATE DELETE
+INSERT вставка данных в таблицу
+SELECT выборка данных из таблицы
+UPDATE обновление данных
+DELETE удаление данных
+
+Операторы определения доступа к данными
+GRANT назначение прав пользователям MySQL
+
+Создание и удаление БД
+CREATE DATABASE [IF NOT EXISTS]
+db_name
+
+DROP DATABASE [IF EXISTS]
+db_name
+
+CREATE DATABASE mydb1;
+CREATE DATABASE IF NOT EXISTS mydb1;
+CREATE DATABASE `моя база`;
+SHOW DATABASES;
+
+DROP DATABASE `моя база`;
+SHOW DATABASES;
+
+
+USE mydb1;
+
+Первый вариант создание таблицы
+
+CREATE TABLE tb1 (
+    idtb1 INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(20) DEFAULT 'название',
+    genre ENUM('классика', 'фантастика','боевик'),
+    dt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+DESC tb1;
+
+Второй вариант создание таблицы
+
+CREATE TABLE tb2 AS
+SELECT * FROM wall.messages LIMIT 10;
+DESC tb2;
+SHOW COLUMNS FROM tb2;
+SHOW FULL COLUMNS FROM tb2; -- плюс права и collation
+
+Посмотрим, что в нутри новой таблицы
+SELECT * FROM tb2;
+
+
+Третий вариант создание таблицы
+
+CREATE TABLE tb3 LIKE wall.messages;
+DESC tb3;
+SELECT * FROM tb3;
+
+CREATE TEMPORARY TABLE tb4 LIKE wall.messages;
+DESC tb3;
+SELECT * FROM tb4;
+SHOW TABLES;
+
+--Добавить комментарий к полю title, добавить колонку description с типом VARCHAR(100), изменить название столбца dt на  dtime, изменить ти title на VARCHAR(50)
+
+ALTER TABLE tb1
+MODIFY title VARCHAR(50) COMMENT 'название',
+ADD COLUMN description VARCHAR(100) NOT NULL AFTER title,
+CHANGE dt dtime DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+DESC tb1;
+
+
+
+USE information_schema
+
+SHOW TABLES;
+
+DESC columns;
+
+-- структура таблицы с учет уомментов
+SELECT COLUMN_NAME, COLUMN_TYPE, EXTRA, COLUMN_DEFAULT, IS_NULLABLE, COLUMN_COMMENT
+FROM information_schema.columns
+WHERE TABLE_SCHEMA = 'mydb1' AND TABLE_NAME = 'tb1';
+
+
+
+Создание индекса на колонке title
+
+USE mydb1;
+CREATE INDEX ix_title
+ON tb1 (title);
+DROP INDEX ix_title;
+ON tb1;
+DESC tb1;
+
+
+SHOW CREATE TABLE tb1;
+
+
+| tb1   | CREATE TABLE `tb1` (
+  `idtb1` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL COMMENT 'название',
+  `description` varchar(100) NOT NULL,
+  `genre` enum('классика','фантастика','боевик') DEFAULT NULL,
+  `dtime` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idtb1`),
+  KEY `ix_title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+35 символов
+
+name, age, aslary
+name, age
+name
+
+
+Вставка данных
+
+INSERT INTO tb1
+VALUES (23,'PHP7','Учим PHP','фантастика', NOW());
+INSERT INTO tb1
+VALUES (NULL,'JavaScript','','фантастика','2016-12-09 10:42:46');
+
+INSERT INTO tb1(title,description)
+VALUES ('MySQL','Супер книга по MySQL');
+
+INSERT INTO tb1(title,description)
+VALUES
+('React','Library for UI'),
+('jQuery','3D Library for UI'),
+('Pixi js','2D Library for UI');
+
+INSERT IGNORE INTO tb1(idtb1,title,description)
+VALUES
+(23, 'PHP7','about all'),
+(50, 'Кулинария','Library for workhouse'),
+(51, 'Пироговедение', 'туториал');
+
+INSERT INTO tb1(title,description)
+SELECT 'user', user FROM mysql.user;
+
+-- выбрать все поля/строки из tb1
+SELECT * FROM tb1;
+
+
+-- ИМРОРТ ДАННЫХ В ТАБЛИЦУ
+LOAD DATA INFILE 'C:/data.cvs'
+INTO TABLE tb1
+FIELDS
+    TERMINATED BY ';'
+LINES
+    TERMINATED BY '\r\n'
+IGNORE 1 LINES;
