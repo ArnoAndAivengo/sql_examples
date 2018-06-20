@@ -1,0 +1,215 @@
+-- быстрый экспорт данных в файл
+
+SELECT * INTO OUTFILE 'C:/Users/Public/data2.cvs'
+FIELDS
+    TERMINATED BY ';'
+LINES
+    TERMINATED BY '\r\n'
+FROM mydb1.tb1;
+
+SELECT * FROM tb1;
+
+
+-- УДАЛЕНИЕ ДАННЫХ
+Оператор DELETE
+
+DELETE FROM tb1; -- не использовать
+
+-- УДАЛИТЬ ВСЕ ЗАПИСИ С ПОЛЕМ title РАВНЫМ user
+DELETE FROM tb1
+WHERE title = 'user';
+
+-- УДАЛЕНИЕ ПО ДИАПОЗОНУ idtb1
+DELETE FROM tb1
+WHERE idtb1 BETWEEN 26 AND 28;
+
+-- УДАЛИТЬ ПО ШАБЛОНУ
+DELETE FROM tb1
+WHERE title LIKE '%js%';
+
+DELETE FROM tb1
+WHERE title LIKE '_HP7';
+
+DELETE FROM tb1
+WHERE title LIKE '%Пирого%';
+
+-- УДАЛИТЬ ПОСЛЕДНЮЮ ЗАПИСЬ
+DELETE FROM tb1
+ORDER BY idtb1 DESC
+LIIMIT 1
+
+SELECT * FROM tb1;
+
+
+-- ОПЕРАТОР UPDATE
+
+UPDATE tb1
+    SET title = 'JavaScript 2015'
+WHERE
+    idtb1 = 24;
+
+
+UPDATE tb1
+    SET genre = 'классика'
+WHERE
+    idtb1 = 25;
+
+
+SELECT * FROM tb1;
+
+-- ЛАБОРАТОРНАЯ РАБОТА
+
+SELECT * FROM consumer;
+SELECT * FROM `order`;
+SELECT * FROM books;
+SELECT * FROM store;
+
+
+-- СОЗДАНИЕ И УДАЛЕНИЕ СОБЫТИЙ
+
+-- ПОСМОТРЕТЬ ЗНАЧЕНИЕ СИСТЕМНОЙ ПЕРЕМЕННОЙ
+SHOW VARIABLES LIKE '%что-то%';
+SHOW VARIABLES LIKE '%scheduler%';
+
+SET GLOBAL event_scheduler = 1;
+
+CREATE TABLE tb5 (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    price FLOAT(5,2)
+);
+INSERT INTO tb5 VALUES
+(NULL, 345.2),
+(NULL, 134.8),
+(NULL, 281.5);
+
+SELECT * FROM tb5;
+
+-- ОДНОРАЗОВОЕ СОБЫТИЕ
+CREATE EVENT inflation
+ON SCHEDULE
+AT CURRENT_TIMESTAMP
+DO UPDATE tb5 SET price = price * 1.12;
+SELECT * FROM tb5;
+
+-- ОДНОРАЗОВОЕ СОБЫТИЕ С ИНТЕРВАЛОМ 20 СЕКУНД
+CREATE EVENT inflation
+ON SCHEDULE
+AT CURRENT_TIMESTAMP + INTERVAL 20 SECOND
+DO UPDATE tb5 SET price = price * 1.12;
+SELECT * FROM tb5;
+
+-- МНОГОРАЗОВОЕ СОБЫТИЕ С ИНТЕРВАЛОМ 20 СЕКУНД
+DROP EVENT IF EXISTS inflation;
+CREATE EVENT inflation
+ON SCHEDULE
+EVERY 10 SECOND
+DO UPDATE tb5 SET price = price * 1.12;
+SELECT * FROM tb5;
+
+
+-- Создание двух таблиц и связка между ними
+
+CREATE DATABASE IF NOT EXISTS pcshop;
+USE pcshop;
+CREATE TABLE category(
+    idcategory INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20)
+);
+CREATE TABLE goods(
+    idgoods INT PRIMARY KEY AUTO_INCREMENT,
+    category_idcategory INT,
+    title VARCHAR(20),
+    INDEX ixcat(category_idcategory),
+    FOREIGN KEY (category_idcategory)
+        REFERENCES category (idcategory)
+    ON DELETE CASCADE
+);
+
+INSERT INTO category (name) VALUES
+('мониторы'),
+('клавиатуры'),
+('мыши');
+INSERT INTO goods (category_idcategory, title) VALUES
+(1, 'Philips'),
+(1, 'Samsung'),
+(2, 'Genius'),
+(3, 'Genius'),
+(1, 'LG'),
+(2, 'Logitech');
+
+
+SELECT * FROM category, goods;
+WHERE idcategory = category_idcategory;
+
+SELECT name as Категория, title as Товар
+FROM category, goods
+WHERE idcategory = category_idcategory;
+
+
+
+--------------------------------------
+3 ДЕНЬ
+
+-- ПРЕДИКАТ/КЛАУЗЛА
+ORDER BY
+-- отсортировать данные по названию
+-- в порядке возростания
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title;
+
+-- ПО ВОЗРОСТАНИЮ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title ASC;
+
+-- ПО УБЫВАНИЮ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title DESC;
+
+
+INSERT INTO tb1(title, description, dtime)
+VALUES ('Кулинария','фантастика','2016-10-11 12:59:17');
+
+-- СОРТИРОВКА ПО ДВУМ ПОЛЯМ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title DESC, dtime;
+-- АЛЬТЕРНАТИВНАЯ ЗАПИСЬ СОРТИРОВКА ПО ДВУМ ПОЛЯМ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY 2 DESC, 3;
+
+-- ПЛОХОЯ ИДЕЯ СОРТИРОВКИ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY RAND();
+
+-- ВЫВЕСТИ ТРИ СТРОКИ
+LIMIT 3
+
+-- ОГРАНИЧЕНИЕ НА ТРИ СТРОКИ
+SELECT idtb1, title, dtime
+FROM tb1
+LIMIT 3;
+
+SELECT name
+FROM world.city
+LIMIT 10;
+
+-- ВЫВЕСТИ 3 СТРОКИ НАЧИНАЯ С 1
+LIMIT 0,3
+
+-- БЫТСРЕЕ РАБОТАЕТ НА БОЛЬШИХ ОБЪЕМАХ ВЫБОРКИ
+SELECT name
+FROM world.city
+LIMIT 3 OFFSET 7;
+
+
+WHERE -- УСЛОВИЕ ВЫБОРКИ
+
+-- ВЫБОРКА КНИГ С ФАНТАСТИКОЙ
+SELECT idtb1, title, genre
+FROM tb1
+WHERE genre = 'фантастика';
