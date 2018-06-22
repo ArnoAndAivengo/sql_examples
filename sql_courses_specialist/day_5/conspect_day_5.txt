@@ -1,0 +1,347 @@
+-- ПРОЦЕДУРЫ
+
+USE mydb1;
+
+DROP PROCEDURE IF EXISTS pc1;
+CREATE PROCEDURE pc1()
+BEGIN
+
+END;
+CALL pc1();
+
+DROP PROCEDURE IF EXISTS pc2;
+delimiter $
+CREATE PROCEDURE pc2()
+BEGIN
+    SELECT 'Hello world!'
+END $
+delimiter ;
+CALL pc2();
+
+DROP PROCEDURE IF EXISTS pc3;
+delimiter $
+CREATE PROCEDURE pc3(IN a1 CHAR(2), OUT a2 INT, INOUT a3 FLOAT(6,2))
+BEGIN
+    SELECT a1, a2, a3;
+    SET a2 = 100;
+    SET a3 = a3 + 200;
+END $
+delimiter ;
+
+SET @d := 137;
+CALL pc3('RU',@p, @d);
+SELECT @p, @d;
+
+
+SELECT name INTO @p
+FROM world.country
+ORDER BY population DESC
+LIMIT 1;
+
+SET @p = NULL;
+SET @p := NULL;
+
+SELECT @qwerty;
+
+-- создание локальных переменных в процедуре
+DROP PROCEDURE IF EXISTS pc4;
+delimiter $
+CREATE PROCEDURE pc4()
+BEGIN
+    DECLARE d,p VARCHAR(10);
+    DECLARE i SMALLINT(10) DEFAULT 1;
+    SELECT d,p,i;
+END $
+delimiter ;
+CALL pc4();
+
+
+
+-- ПОСМОТРЕТЬ ТЕЛО ПРОЦЕДУРЫ pc4 БАЗЫ mydb1
+SELECT ROUTINE_DEFINITION
+FROM information_schema.ROUTINES
+WHERE
+    ROUTINE_NAME = 'pc4' AND
+    ROUTINE_SCHEMA = 'mydb1';
+
+
+-- Курсоры
+
+
+-- Роимер курсора
+DROP PROCEDURE IF EXISTS pc5;
+delimiter |
+CREATE PROCEDURE pc5()
+BEGIN
+    DECLARE t VARCHAR(50);
+    DECLARE mycur CURSOR FOR
+        SELECT title FROM tb1;
+
+    OPEN mycur;
+        FETCH mycur INTO t;
+        SELECT t;
+    CLOSE mycur;
+END |
+delimiter ;
+CALL pc5();
+
+-- ПРИМЕР КУРСОРА С НЕСКОЛЬМИ ПОЛЯМИ В ЗАПРОСЕ
+DROP PROCEDURE IF EXISTS pc6;
+delimiter |
+CREATE PROCEDURE pc6()
+BEGIN
+    DECLARE t VARCHAR(50);
+    DECLARE i INT(11);
+    DECLARE mycur CURSOR FOR
+        SELECT title, idtb1 FROM tb1;
+
+    OPEN mycur;
+        FETCH mycur INTO t, i;
+        SELECT t, i;
+        FETCH mycur INTO t, i;
+        SELECT t, i;
+    CLOSE mycur;
+END |
+delimiter ;
+CALL pc6();
+
+
+-- ПРИМЕР РАБООТЫ ОПЕРАТОРА IF
+DROP PROCEDURE IF EXISTS pc7;
+delimiter |
+CREATE PROCEDURE pc7(INT d FLOAT(3,1))
+BEGIN
+    IF d < 36.3 THEN
+        SELECT 'Вы переохлаждены';
+        ELSE IF d > 36.8 THEN
+                SELECT 'У вас жар';
+            ELSE SELECT 'Вы в норме';
+        END IF;
+    END IF;
+END |
+delimiter ;
+CALL pc7(36.6);
+CALL pc7(37.9);
+CALL pc7(35.5);
+
+
+-- пример работы оператор WHILE
+DROP PROCEDURE IF EXISTS pc8;
+delimiter |
+CREATE PROCEDURE pc8(IN d INT(11))
+BEGIN
+    DECLARE res  VARCHAR(3000) DEFAULT '';
+    WHILE d > 0 DO
+        SET res = CONCAT(res, '', d);
+        SET  d = d -1;
+    END WHILE;
+    SELECT res;
+END |
+delimiter ;
+CALL pc8(10);
+
+
+
+-- пример работы оператор REPEAT
+DROP PROCEDURE IF EXISTS pc9;
+delimiter |
+CREATE PROCEDURE pc9(IN d INT(11))
+BEGIN
+    DECLARE res  VARCHAR(3000) DEFAULT '';
+    REPEAT
+        SET res = CONCAT(res, ', ', d);
+        SET d = d -1;
+        UNTIL D < 0
+    END REPEAT;
+    SELECT res;
+END |
+delimiter ;
+CALL pc9(10);
+
+
+
+-- пример работы оператор WHILE
+DROP PROCEDURE IF EXISTS pc10;
+delimiter |
+CREATE PROCEDURE pc10(IN p1 INT(11), IN p2 INT(11))
+BEGIN
+    DECLARE poput INT(11) DEFAULT '0';
+    DECLARE flag SMALLINT(1) DEFAULT '0';
+    DECLARE curpopulation CURSOR FOR
+        SELECT population FROM world.country;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET flag = 1;
+
+    DROP TEMPORARY TABLE IF EXISTS tmp;
+    CREATE TEMPORARY TABLE tmp (
+        psize ENUM('больших','средних','маленьких')
+    );
+
+    OPEN curpopulation;
+
+    REPEAT
+        FETCH curpopulation INTO popul;
+        IF NOT flag THEN
+            IF popul < p1 THEN
+                INSERT INTO tmp VALUES ('маленьких');
+                ELSE IF popul > p2 THEN
+                    INSERT INTO tmp VALUES ('боьших');
+                    ELSE INSERT INTO tmp VALUES ('средних');
+                END IF;
+            END IF;
+        END IF;
+        UNTIL flag
+    END REPEAT;
+
+    CLOSE curpopulation;
+    SELECT psize 'Размеры', count(psize) 'Количество'
+    FROM tmp
+    GROUP BY 1;
+    DROP TEMPORARY TABLE tmp;
+END |
+delimiter ;
+CALL pc10(2e6 , 1e7);
+
+
+
+-- день 4
+
+-- Как решить предыдущую задачу бытсрей с помощью функиции IF
+SELECT
+IF (population < 2e6 , 'маленькие',
+    IF (population > 1e7,'большие', 'средние'))
+count(*)
+FROM world.country
+GROUP BY 1;
+
+
+SELECT CONV(population, 10, 16)
+FROM world.country;
+
+
+POWER()
+
+SELECT POWER(2,8);
+
+SELECT TRUNCATE(2.8333,2);
+SELECT TRUNCATE(2.1222,1);
+SELECT TRUNCATE(2.1333,0);
+
+
+
+SELECT LENGTH('ВАСЯ');
+
+USE mydb1;
+SELECT title, LENGTH(title), CHAR_LENGTH(title)
+FROM tb1;
+
+
+SELECT LEFT(title, 10)
+FROM tb1;
+
+
+SELECT REPLACE(title, 'Java', 'SQL')
+FROM tb1;
+
+
+SELECT TO_BASE64(title)
+FROM tb1;
+
+
+SELECT MONTH(dtime), count(*)
+FROM tb1
+GROUP BY 1;
+
+-- как создать функцию
+DROP FUNCTION IF EXISTS fn1;
+delimiter |
+CREATE FUNCTION fn1()
+RETURNS INT
+BEGIN
+    RETURN 1002302;
+END |
+delimiter ;
+SELECT fn1();
+
+-- Написать
+
+USE world;
+
+DELIMITER |
+DROP TRIGGER IF EXISTS tg_country_update |
+CREATE TRIGGER tg_country_update AFTER UPDATE ON country
+FOR EACH ROW BEGIN
+-- Если цена изменялась...
+IF OLD.name <> NEW.name THEN
+-- Внесем запись в журнал
+    UPDATE city SET city.name = CONCAT(city.name, '*')
+    WHERE countrycode = OLD.code;
+END IF;
+END;
+|
+DELIMITER ;
+
+UPDATE country
+SET name = CONCAT(name, '*')
+ORDER BY RAND()
+LIMIT 1;
+
+SELECT name FROM country WHERE RIGHT(name, 1) = '*';
+SELECT name FROM city WHERE RIGHT(name, 1) = '*';
+
+
+-- ТРАНЗАКЦИИ
+
+-- Блокировки и их типы
+
+-- Пример блокировки таблиц
+-- Смотреть из двух консолей!ы
+LOCK TABLES tb1 WRITE, tb2 READ;
+
+SELECT * FROM tb1;
+SELECT * FROM tb2;
+UPDATE tb2 SET name = 'ttt' where ID = 1;
+UPDATE tb1 SET title = 'Кулинария молекулярная' where idtb1 = 57;
+
+UNLOCK TABLES;
+
+SELECT GET_LOCK('mylock', 5);
+
+SELECT GET_LOCK(idtb1, 15)
+FROM tb1
+WHERE idtb1 = 57;
+
+SELECT RELEASE_LOCK(idtb1)
+FROM tb1
+WHERE idtb1 = 57;
+
+
+-- Пример работы с транзакциями
+START TRANSACTION
+
+UPDATE tb1 SET title  = CONCAT(title, '***');
+SELECT title FROM tb1;
+
+COMMIT;
+ROLLBACK;
+
+SHOW VARIABLES LIKE '%autocommit%';
+SET autocommit = 0;
+SHOW VARIABLES LIKE '%autocommit%';
+SET autocommit = 1;
+
+-- смотрми уровень изоляции
+SHOW VARIABLES LIKE '%tx_issolation%';
+
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SHOW VARIABLES LIKE '%is_isolation%';
+
+
+-- Типы хранилищ MySQL
+
+CREATE TABLE tb10 (
+    id INT
+) ENGINE = MyISAM;
+
+ALTER TABLE tb10 ENGINE = MEMORY;
