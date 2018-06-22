@@ -1,0 +1,408 @@
+--------------------------------------
+3 ДЕНЬ
+
+-- ПРЕДИКАТ/КЛАУЗЛА
+ORDER BY
+-- отсортировать данные по названию
+-- в порядке возростания
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title;
+
+-- ПО ВОЗРОСТАНИЮ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title ASC;
+
+-- ПО УБЫВАНИЮ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title DESC;
+
+
+INSERT INTO tb1(title, description, dtime)
+VALUES ('Кулинария','фантастика','2016-10-11 12:59:17');
+
+-- СОРТИРОВКА ПО ДВУМ ПОЛЯМ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY title DESC, dtime;
+-- АЛЬТЕРНАТИВНАЯ ЗАПИСЬ СОРТИРОВКА ПО ДВУМ ПОЛЯМ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY 2 DESC, 3;
+
+-- ПЛОХОЯ ИДЕЯ СОРТИРОВКИ
+SELECT idtb1, title, dtime
+FROM tb1
+ORDER BY RAND();
+
+-- ВЫВЕСТИ ТРИ СТРОКИ
+LIMIT 3
+
+-- ОГРАНИЧЕНИЕ НА ТРИ СТРОКИ
+SELECT idtb1, title, dtime
+FROM tb1
+LIMIT 3;
+
+SELECT name
+FROM world.city
+LIMIT 10;
+
+-- ВЫВЕСТИ 3 СТРОКИ НАЧИНАЯ С 1
+LIMIT 0,3
+
+-- БЫТСРЕЕ РАБОТАЕТ НА БОЛЬШИХ ОБЪЕМАХ ВЫБОРКИ
+SELECT name
+FROM world.city
+LIMIT 3 OFFSET 7;
+
+
+WHERE -- УСЛОВИЕ ВЫБОРКИ
+
+-- ВЫБОРКА КНИГ С ФАНТАСТИКОЙ
+SELECT idtb1, title, genre
+FROM tb1
+WHERE genre = 'фантастика';
+
+-- ДИАПАЗОН ДАТ
+SELECT idtb1, title, genre
+FROM tb1
+WHERE dtime
+BETWEEN '2012-06-21 0:0:0'
+AND '2018-06-21 0:0:0';
+
+
+SELECT idtb1, title, genre
+FROM tb1
+WHERE genre = 'фантастика' AND
+description LIKE '%a%';
+
+-- НАЙТИ КНИГИ НА к
+SELECT idtb1, title, genre
+FROM tb1
+description LIKE '%к%';
+
+-- ГДЕ швеи1 РАВНО 56, 57, 25
+SELECT idtb1, title, genre
+FROM tb1
+WHERE
+    idtb1 = 56 OR
+    idtb1 = 57 OR
+    idtb1 = 25;
+
+
+SELECT idtb1, title, genre
+FROM tb1
+WHERE
+    idtb1 % 2 = 1;
+
+-- найти записи со значением NULL
+SELECT idtb1, title, genre
+FROM tb1
+WHERE
+    genre IS NULL;
+
+Функции агрегации (агрегаты)
+
+AVG() - среднее
+COUNT() - кол-во строк
+GROUP_CONCAT() - групповая конкатенация
+MIN() - нахождение минимального
+MAX() - нахождение максимального
+STD() - стаднартное отклонение
+SUM() - сумма
+VARIANCE() - дисперсия
+
+-- найдем среднее население по городам мира
+SELECT AVG(population) Среднее
+FROM world.city;
+
+-- сколько запсей в city
+SELECT COUNT(*)
+FROM world.city;
+
+-- сколько запсей в population в city
+SELECT COUNT(population)
+FROM world.city;
+
+-- групповая конкатенация
+SELECT GROUP_CONCAT(title)
+FROM tb1;
+
+-- групповая конкатенация
+SELECT GROUP_CONCAT(title
+SEPARATOR ';')
+FROM tb1;
+
+-- найти мимнимальное городское население
+SELECT MIN(population)
+FROM world.city;
+
+-- найти максимальное городское население
+SELECT MAX(population)
+FROM world.city;
+
+-- сколько городского населения в USA RUS
+SELECT SUM(population)
+FROM world.city;
+WHERE countrycode = 'USA';
+SELECT SUM(population)
+FROM world.city;
+WHERE countrycode = 'RUS';
+
+
+
+-- найти среднюю продолжительность жизни в мире
+SELECT AVG(lifeexpectancy)
+FROM world.country;
+
+-- найти среднюю продолжительность жизни в России
+SELECT AVG(lifeexpectancy)
+FROM world.country
+WHERE code = 'RUS';
+SELECT AVG(lifeexpectancy)
+FROM world.country
+WHERE code = 'USA';
+
+
+GORUP BY группировка
+
+-- найти ко-во книг каждого жанра
+SELECT genre,COUNT(*)
+FROM tb1
+GROUP BY genre;
+
+-- НАЙТИ КОЛ-ВО НАСЕЛЕНИЯ ПО КОНТИНЕНТАМ
+SELECT continent, SUM(population)
+FROM world.country
+GROUP BY continent;
+
+
+SELECT continent, region SUM(population)
+FROM world.country
+GROUP BY continent, region;
+
+-- подведение промежуточного итога по всем коллонкам
+SELECT continent, region SUM(population)
+FROM world.country
+GROUP BY continent, region
+WITH ROLLUP;
+
+SELECT continent, region, count(*)
+FROM world.country
+GROUP BY continent, region
+WITH ROLLUP;
+
+
+-- HAVING аналог WHERE, но работает после выборки
+SELECT continent, region, count(*)
+FROM world.country
+GROUP BY continent, region
+HAVING count(*) > 10;
+
+
+-- JOIN
+Russian Federation
+
+SELECT city.name
+FROM world.city INNER JOIN world.country
+ON code = countrycode
+WHERE country.name = 'Russian Federation';
+
+
+-- Кросс-объединение CROSS JOIN
+
+-- найти одинаковые города
+SELECT DISTINCT c1.name, c1.id
+FROM world.city c1 INNER JOIN world.city c2
+WHERE
+    c1.name = c2.name AND
+    c1.id <> c2.id
+ORDER BY 1;
+
+SELECT genre FROM tb1;
+SELECT DISTINCT genre FROM tb1;
+
+
+-- найти все языки одной из стран Россия и Индия. Russian Federation, India
+
+DESC world.countrylanguage;
+
+SELECT language, percentage
+FROM world.country
+    INNER JOIN world.countrylanguage
+ON countrycode = code
+WHERE name = 'Russian Federation'
+ORDER BY 2 DESC;
+
+
+UNION -- ОБЪЕДИНЕНИЕ ЗАПРОСОВ
+
+SELECT title FROM tb1
+UNION
+SELECT user FROM mysql.user
+UNION
+SELECT name FROM world.city LIMIT 10;
+
+-- одно и тоже
+SELECT title FROM tb1
+UNION DISTINCT
+SELECT user FROM mysql.user
+UNION DISTINCT
+SELECT name FROM world.city LIMIT 10;
+
+
+SELECT title FROM tb1
+UNION ALL
+SELECT user FROM mysql.user
+UNION ALL
+SELECT name FROM world.city LIMIT 10;
+
+
+UNION ALL
+UNION DISTINCT
+
+-- И 10 ГОРОДОВ
+(SELECT title FROM tb1)
+UNION ALL
+(SELECT user FROM mysql.user)
+UNION ALL
+(SELECT name FROM world.city LIMIT 10);
+
+-- ИСККУСТВЕННЫЙ ЗАПРОС НА =
+-- MISTAKE:
+SELECT title, genre
+FROM tb1
+WHERE genre = (
+    SELECT genre
+    FROM tb1
+    WHERE genre LIKE '%a%'
+);
+
+-- ОШИБКИ НЕТ
+SELECT title, genre
+FROM tb1
+WHERE genre = (
+    SELECT genre
+    FROM tb1
+    WHERE genre LIKE '%a%'
+    LIMIT 1
+);
+
+-- найти кол-во городов в странах, названия которых содержат rus
+SELECT count(*)
+FROM world.city
+WHERE countrycode IN (
+    SELECT code
+    FROM world.country
+    WHERE name LIKE '%rus%'
+);
+
+-- НЕ БУДЕТ РАБОТАТЬ
+SELECT count(*)
+FROM world.city
+WHERE countrycode IN (
+    SELECT code
+    FROM world.country
+    ORDER BY population DESC
+    LIMIT 3
+);
+
+
+
+-- найти города RUS с населением меньшим, самого малонаселенного горола
+
+SELECT name, population
+FROM world.city
+WHERE countrycode = 'USA' AND population < ALL (
+    SELECT population
+    FROM world.city
+    WHERE countrycode = 'RUS'
+);
+
+
+
+-- ПРИМЕР ПЛОХОГО ЗАПРОСА
+SELECT count(*)
+FROM world.city c1
+WHERE EXISTS (
+    SELECT name FROM world.city c2
+    WHERE c1.name = c2.name
+);
+
+
+-- найти страны в которых есть города миллионники
+SELECT country.name
+FROM world.country
+WHERE EXISTS (
+    SELECT name
+    FROM world.city
+    WHERE population > 1e6 AND
+    countrycode = code
+);
+
+-- найти страны без городов миллионеров
+SELECT country.name
+FROM world.country
+WHERE NOT EXISTS (
+    SELECT name
+    FROM world.city
+    WHERE population >= 1e6 AND
+    countrycode = code
+);
+
+name > ANY (
+SELECT 'test'
+UNION
+SELECT 'test2'
+)
+
+CREATE TEMPORARY TABLE tb5 (
+    idtb5 INT PRIMARY KEY
+);
+SHOW TABLES
+DESC tb5;
+\r
+DESC tb5;
+
+
+DROP VIEW IF EXISTS fantastika;
+CREATE VIEW fantastika
+AS SELECT * FROM tb1
+WHERE genre = 'фантастика';
+
+
+-- ПРОЦЕДУРЫ
+
+USE mydb1;
+
+DROP PROCEDURE IF EXISTS pc1;
+CREATE PROCEDURE pc1()
+BEGIN
+
+END;
+CALL pc1();
+
+DROP PROCEDURE IF EXISTS pc2;
+delimiter $
+CREATE PROCEDURE pc2()
+BEGIN
+    SELECT 'Hello world!'
+END $
+delimiter ;
+CALL pc2();
+
+DROP PROCEDURE IF EXISTS pc3;
+delimiter $
+CREATE PROCEDURE pc3(IN a1 CHAR(2), OUT a2 INT, INOUT a3 FLOAT(6,2))
+BEGIN
+    SELECT a1, a2, a3;
+    SET a2 = 100;
+    SET a3 = a3 + 200;
+END $
+delimiter ;
+
+SET @d := 137;
+CALL pc3('RU',@p, @d);
+SELECT @p, @d;

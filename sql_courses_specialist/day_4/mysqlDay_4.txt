@@ -1,0 +1,1443 @@
+mysql> USE world
+Database changed
+mysql> SELECT name FROM world.city LIMIT 10;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT name FROM world.city LIMIT 10;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3475
+Current database: world
+
++----------------+
+| name           |
++----------------+
+| Kabul          |
+| Qandahar       |
+| Herat          |
+| Mazar-e-Sharif |
+| Amsterdam      |
+| Rotterdam      |
+| Haag           |
+| Utrecht        |
+| Eindhoven      |
+| Tilburg        |
++----------------+
+10 rows in set (0.03 sec)
+
+mysql> SELECT name FROM world.city LIMIT 3 OFFSET 7;
++-----------+
+| name      |
++-----------+
+| Utrecht   |
+| Eindhoven |
+| Tilburg   |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT AVG(population) Среднее FROM world.city;
++----------------+
+| Среднее        |
++----------------+
+|    350468.2236 |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT COUNT (*) Строк FROM world.city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) Строк FROM world.city' at line 1
+mysql> SELECT COUNT (*) FROM world.city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) FROM world.city' at line 1
+mysql> SELECT COUNT(*) FROM world.city;
++----------+
+| COUNT(*) |
++----------+
+|     4079 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> SELECT COUNT(*) FROM world.city;
++----------+
+| COUNT(*) |
++----------+
+|     4079 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MIN(population) FROM world.city;
++-----------------+
+| MIN(population) |
++-----------------+
+|              42 |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT MAX(population) FROM world.city;
++-----------------+
+| MAX(population) |
++-----------------+
+|        10500000 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUM(population) FROM world.city; WHERE countrycode = 'USA'; SELECT SUM(population) FROM world.city; WHERE countrycode = 'RUS';
++-----------------+
+| SUM(population) |
++-----------------+
+|      1429559884 |
++-----------------+
+1 row in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE countrycode = 'USA'' at line 1
++-----------------+
+| SUM(population) |
++-----------------+
+|      1429559884 |
++-----------------+
+1 row in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE countrycode = 'RUS'' at line 1
+mysql> SELECT SUM(population) FROM world.city; WHERE countrycode = 'USA';
++-----------------+
+| SUM(population) |
++-----------------+
+|      1429559884 |
++-----------------+
+1 row in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE countrycode = 'USA'' at line 1
+mysql> SELECT SUM(population) FROM world.city; WHERE countrycode = 'RUS';
++-----------------+
+| SUM(population) |
++-----------------+
+|      1429559884 |
++-----------------+
+1 row in set (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE countrycode = 'RUS'' at line 1
+mysql> SELECT AVG(lifeexpectancy) FROM world.country;
++---------------------+
+| AVG(lifeexpectancy) |
++---------------------+
+|            66.48604 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(lifeexpectancy) FROM world.country WHERE code = 'RUS';
++---------------------+
+| AVG(lifeexpectancy) |
++---------------------+
+|            67.20000 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT continent, SUM(population) FROM world.country GROUP BY continent;
++---------------+-----------------+
+| continent     | SUM(population) |
++---------------+-----------------+
+| Asia          |      3705025700 |
+| Europe        |       730074600 |
+| North America |       482993000 |
+| Africa        |       784475000 |
+| Oceania       |        30401150 |
+| Antarctica    |               0 |
+| South America |       345780000 |
++---------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT continent, region SUM(population) FROM world.country GROUP BY continent, region;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SUM(population) FROM world.country GROUP BY continent, region' at line 1
+mysql> SELECT continent, region SUM(population) FROM world.country GROUP BY continent, region WITH ROLLUP;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SUM(population) FROM world.country GROUP BY continent, region WITH ROLLUP' at line 1
+mysql> SELECT continent, region, count(*) FROM world.country GROUP BY continent, region HAVING count(*) > 10;
++---------------+---------------------------+----------+
+| continent     | region                    | count(*) |
++---------------+---------------------------+----------+
+| Asia          | Middle East               |       18 |
+| Asia          | Southeast Asia            |       11 |
+| Asia          | Southern and Central Asia |       14 |
+| Europe        | Southern Europe           |       15 |
+| North America | Caribbean                 |       24 |
+| Africa        | Eastern Africa            |       20 |
+| Africa        | Western Africa            |       17 |
+| South America | South America             |       14 |
++---------------+---------------------------+----------+
+8 rows in set (0.01 sec)
+
+mysql> SELECT city.name FROM world.city INNER JOIN world.country ON code = countrycode WHERE country.name = 'Russian Federation'
+    -> ^C
+mysql> SELECT city.name FROM world.city INNER JOIN world.country ON code = countrycode WHERE country.name = 'Russian Federation';
++---------------------------+
+| name                      |
++---------------------------+
+| Moscow                    |
+| St Petersburg             |
+| Novosibirsk               |
+| Nizni Novgorod            |
+| Jekaterinburg             |
+| Samara                    |
+| Omsk                      |
+| Kazan                     |
+| Ufa                       |
+| Tšeljabinsk               |
+| Rostov-na-Donu            |
+| Perm                      |
+| Volgograd                 |
+| Voronez                   |
+| Krasnojarsk               |
+| Saratov                   |
+| Toljatti                  |
+| Uljanovsk                 |
+| Izevsk                    |
+| Krasnodar                 |
+| Jaroslavl                 |
+| Habarovsk                 |
+| Vladivostok               |
+| Irkutsk                   |
+| Barnaul                   |
+| Novokuznetsk              |
+| Penza                     |
+| Rjazan                    |
+| Orenburg                  |
+| Lipetsk                   |
+| Nabereznyje Tšelny        |
+| Tula                      |
+| Tjumen                    |
+| Kemerovo                  |
+| Astrahan                  |
+| Tomsk                     |
+| Kirov                     |
+| Ivanovo                   |
+| Tšeboksary                |
+| Brjansk                   |
+| Tver                      |
+| Kursk                     |
+| Magnitogorsk              |
+| Kaliningrad               |
+| Nizni Tagil               |
+| Murmansk                  |
+| Ulan-Ude                  |
+| Kurgan                    |
+| Arkangeli                 |
+| Sotši                     |
+| Smolensk                  |
+| Orjol                     |
+| Stavropol                 |
+| Belgorod                  |
+| Kaluga                    |
+| Vladimir                  |
+| Mahatškala                |
+| Tšerepovets               |
+| Saransk                   |
+| Tambov                    |
+| Vladikavkaz               |
+| Tšita                     |
+| Vologda                   |
+| Veliki Novgorod           |
+| Komsomolsk-na-Amure       |
+| Kostroma                  |
+| Volzski                   |
+| Taganrog                  |
+| Petroskoi                 |
+| Bratsk                    |
+| Dzerzinsk                 |
+| Surgut                    |
+| Orsk                      |
+| Sterlitamak               |
+| Angarsk                   |
+| Joškar-Ola                |
+| Rybinsk                   |
+| Prokopjevsk               |
+| Niznevartovsk             |
+| Naltšik                   |
+| Syktyvkar                 |
+| Severodvinsk              |
+| Bijsk                     |
+| Niznekamsk                |
+| Blagoveštšensk            |
+| Šahty                     |
+| Staryi Oskol              |
+| Zelenograd                |
+| Balakovo                  |
+| Novorossijsk              |
+| Pihkova                   |
+| Zlatoust                  |
+| Jakutsk                   |
+| Podolsk                   |
+| Petropavlovsk-Kamtšatski  |
+| Kamensk-Uralski           |
+| Engels                    |
+| Syzran                    |
+| Grozny                    |
+| Novotšerkassk             |
+| Berezniki                 |
+| Juzno-Sahalinsk           |
+| Volgodonsk                |
+| Abakan                    |
+| Maikop                    |
+| Miass                     |
+| Armavir                   |
+| Ljubertsy                 |
+| Rubtsovsk                 |
+| Kovrov                    |
+| Nahodka                   |
+| Ussurijsk                 |
+| Salavat                   |
+| Mytištši                  |
+| Kolomna                   |
+| Elektrostal               |
+| Murom                     |
+| Kolpino                   |
+| Norilsk                   |
+| Almetjevsk                |
+| Novomoskovsk              |
+| Dimitrovgrad              |
+| Pervouralsk               |
+| Himki                     |
+| Balašiha                  |
+| Nevinnomyssk              |
+| Pjatigorsk                |
+| Korolev                   |
+| Serpuhov                  |
+| Odintsovo                 |
+| Orehovo-Zujevo            |
+| Kamyšin                   |
+| Novotšeboksarsk           |
+| Tšerkessk                 |
+| Atšinsk                   |
+| Magadan                   |
+| Mitšurinsk                |
+| Kislovodsk                |
+| Jelets                    |
+| Seversk                   |
+| Noginsk                   |
+| Velikije Luki             |
+| Novokuibyševsk            |
+| Neftekamsk                |
+| Leninsk-Kuznetski         |
+| Oktjabrski                |
+| Sergijev Posad            |
+| Arzamas                   |
+| Kiseljovsk                |
+| Novotroitsk               |
+| Obninsk                   |
+| Kansk                     |
+| Glazov                    |
+| Solikamsk                 |
+| Sarapul                   |
+| Ust-Ilimsk                |
+| Štšolkovo                 |
+| Mezduretšensk             |
+| Usolje-Sibirskoje         |
+| Elista                    |
+| Novošahtinsk              |
+| Votkinsk                  |
+| Kyzyl                     |
+| Serov                     |
+| Zelenodolsk               |
+| Zeleznodoroznyi           |
+| Kinešma                   |
+| Kuznetsk                  |
+| Uhta                      |
+| Jessentuki                |
+| Tobolsk                   |
+| Neftejugansk              |
+| Bataisk                   |
+| Nojabrsk                  |
+| Balašov                   |
+| Zeleznogorsk              |
+| Zukovski                  |
+| Anzero-Sudzensk           |
+| Bugulma                   |
+| Zeleznogorsk              |
+| Novouralsk                |
+| Puškin                    |
+| Vorkuta                   |
+| Derbent                   |
+| Kirovo-Tšepetsk           |
+| Krasnogorsk               |
+| Klin                      |
+| Tšaikovski                |
+| Novyi Urengoi             |
++---------------------------+
+189 rows in set (0.01 sec)
+
+mysql> SELECT DISTINCT c1.name, c1.id FROM world.city c1 INNER JOIN world.city c2 WHERE     c1.name = c2.name RAN     c1.id <> c2.id ORDER BY 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'RAN     c1.id <> c2.id ORDER BY 1' at line 1
+mysql> SELECT DISTINCT c1.name, c1.id FROM world.city c1 INNER JOIN world.city c2 WHERE     c1.name = c2.name AND     c1.id <> c2.id ORDER BY 1;
++---------------+------+
+| name          | id   |
++---------------+------+
+| Alexandria    | 3960 |
+| Alexandria    |  609 |
+| Anyang        | 2341 |
+| Anyang        | 1967 |
+| Arlington     | 3909 |
+| Arlington     | 3845 |
+| Aurora        | 3853 |
+| Aurora        | 3941 |
+| Barcelona     | 3546 |
+| Barcelona     |  654 |
+| Birmingham    |  457 |
+| Birmingham    | 3863 |
+| Brest         | 2992 |
+| Brest         | 3525 |
+| Cádiz         |  692 |
+| Cadiz         |  830 |
+| Cambridge     | 1847 |
+| Cambridge     | 4032 |
+| Cambridge     |  507 |
+| Cartagena     | 2261 |
+| Cartagena     |  682 |
+| Colombo       |  325 |
+| Colombo       | 3217 |
+| Columbus      | 3807 |
+| Columbus      | 3896 |
+| Concepcion    |  852 |
+| Concepción    |  562 |
+| Córdoba       |  664 |
+| Córdoba       |   71 |
+| Córdoba       | 2600 |
+| Depok         | 1001 |
+| Depok         |  959 |
+| Ede           |   29 |
+| Ede           | 2759 |
+| Glendale      | 3872 |
+| Glendale      | 3890 |
+| Gloucester    | 1848 |
+| Gloucester    |  513 |
+| Guadalupe     | 2657 |
+| Guadalupe     | 2533 |
+| Halifax       | 1846 |
+| Halifax       |  529 |
+| Hamilton      | 1821 |
+| Hamilton      | 3501 |
+| Hamilton      |  191 |
+| Hyderabad     | 2827 |
+| Hyderabad     | 1028 |
+| Jining        | 2117 |
+| Jining        | 2021 |
+| Jinzhou       | 1944 |
+| Jinzhou       | 2238 |
+| Kaiyuan       | 2181 |
+| Kaiyuan       | 2243 |
+| Kansas City   | 3828 |
+| Kansas City   | 3936 |
+| Kingston      | 1530 |
+| Kingston      | 2806 |
+| La Paz        | 2586 |
+| La Paz        | 2589 |
+| La Paz        |  194 |
+| León          | 2522 |
+| León          | 2735 |
+| León          |  695 |
+| London        | 1820 |
+| London        |  456 |
+| Los Angeles   | 3794 |
+| Los Angeles   |  568 |
+| Manchester    | 4011 |
+| Manchester    |  462 |
+| Manzanillo    | 2638 |
+| Manzanillo    | 2424 |
+| Matamoros     | 2684 |
+| Matamoros     | 2554 |
+| Mérida        | 3551 |
+| Mérida        | 2530 |
+| Newcastle     |  137 |
+| Newcastle     |  734 |
+| Pasadena      | 3953 |
+| Pasadena      | 3943 |
+| Peoria        | 4007 |
+| Peoria        | 3996 |
+| Plymouth      | 2697 |
+| Plymouth      |  472 |
+| Portsmouth    | 4035 |
+| Portsmouth    |  481 |
+| Richmond      | 1834 |
+| Richmond      | 3887 |
+| Richmond      | 4047 |
+| Saint John´s  |   63 |
+| Saint John´s  | 1851 |
+| Salamanca     | 2580 |
+| Salamanca     |  689 |
+| Salem         | 3952 |
+| Salem         | 1096 |
+| San Carlos    |  849 |
+| San Carlos    |  823 |
+| San Felipe    | 3578 |
+| San Felipe    | 2678 |
+| San Fernando  |  109 |
+| San Fernando  |  802 |
+| San Fernando  |  876 |
+| San José      |  584 |
+| San Jose      |  859 |
+| San Jose      |  865 |
+| San Jose      | 3803 |
+| San Juan      |  118 |
+| San Juan      | 2919 |
+| San Mateo     | 4056 |
+| San Mateo     |  834 |
+| San Miguel    |  649 |
+| San Miguel    |   95 |
+| San Miguel    |  843 |
+| Santa Ana     |  646 |
+| Santa Ana     | 3843 |
+| Santa Clara   | 2417 |
+| Santa Clara   | 4025 |
+| Santa Maria   |  828 |
+| Santa Maria   |  293 |
+| Santa Rosa    | 3934 |
+| Santa Rosa    |  812 |
+| Springfield   | 3998 |
+| Springfield   | 3924 |
+| Springfield   | 3925 |
+| Suzhou        | 1935 |
+| Suzhou        | 2133 |
+| Taiping       | 2473 |
+| Taiping       | 3285 |
+| Toledo        |  422 |
+| Toledo        |  832 |
+| Toledo        | 3848 |
+| Tripoli       | 2441 |
+| Tripoli       | 2439 |
+| Valencia      |  826 |
+| Valencia      | 3542 |
+| Valencia      |  655 |
+| Vancouver     | 3939 |
+| Vancouver     | 1818 |
+| Victoria      | 2575 |
+| Victoria      | 3206 |
+| Victoria      |  937 |
+| Worcester     | 3914 |
+| Worcester     |  527 |
+| Yichun        | 2134 |
+| Yichun        | 1932 |
+| York          |  516 |
+| York          | 1833 |
+| Zeleznogorsk  | 3759 |
+| Zeleznogorsk  | 3755 |
++---------------+------+
+148 rows in set (2.17 sec)
+
+mysql> DESC world.countrylanguage;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| CountryCode | char(3)       | NO   | PRI |         |       |
+| Language    | char(30)      | NO   | PRI |         |       |
+| IsOfficial  | enum('T','F') | NO   |     | F       |       |
+| Percentage  | float(4,1)    | NO   |     | 0.0     |       |
++-------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT countrylanguage, percentage FROM world.country     INNER JOIN world.countrylanguage ON countrylanguage = code WHERE name = 'India' ORDER BY 2 DESC;
+ERROR 1054 (42S22): Unknown column 'countrylanguage' in 'field list'
+mysql> show tables;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> show tables;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3506
+Current database: world
+
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.03 sec)
+
+mysql> show countrylanguage;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'countrylanguage' at line 1
+mysql> show countrylanguage;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'countrylanguage' at line 1
+mysql> SELECT countrylanguage, percentage FROM world.country     INNER JOIN world.countrylanguage ON countrylanguage = code WHERE name = 'India' ORDER BY 2 DESC;
+ERROR 1054 (42S22): Unknown column 'countrylanguage' in 'field list'
+mysql> SELECT countrylanguage, percentage FROM world.country     INNER JOIN world.countrylanguage ON countrycode = code WHERE name = 'India' ORDER BY 2 DESC;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT countrylanguage, percentage FROM world.country     INNER JOIN world.countrylanguage ON countrycode = code WHERE name = 'India' ORDER BY 2 DESC;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3515
+Current database: world
+
+ERROR 1054 (42S22): Unknown column 'countrylanguage' in 'field list'
+mysql> SELECT language, percentage FROM world.country     INNER JOIN world.countrylanguage ON countrycode = code WHERE name = 'India' ORDER BY 2 DESC;
++-----------+------------+
+| language  | percentage |
++-----------+------------+
+| Hindi     |       39.9 |
+| Bengali   |        8.2 |
+| Telugu    |        7.8 |
+| Marathi   |        7.4 |
+| Tamil     |        6.3 |
+| Urdu      |        5.1 |
+| Gujarati  |        4.8 |
+| Kannada   |        3.9 |
+| Malajalam |        3.6 |
+| Orija     |        3.3 |
+| Punjabi   |        2.8 |
+| Asami     |        1.5 |
++-----------+------------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT language, percentage FROM world.country     INNER JOIN world.countrylanguage ON countrycode = code WHERE name = 'Russian Federation' ORDER BY 2 DESC;
++-------------+------------+
+| language    | percentage |
++-------------+------------+
+| Russian     |       86.6 |
+| Tatar       |        3.2 |
+| Ukrainian   |        1.3 |
+| Chuvash     |        0.9 |
+| Bashkir     |        0.7 |
+| Chechen     |        0.6 |
+| Mordva      |        0.5 |
+| Kazakh      |        0.4 |
+| Mari        |        0.4 |
+| Avarian     |        0.4 |
+| Belorussian |        0.3 |
+| Udmur       |        0.3 |
++-------------+------------+
+12 rows in set (0.00 sec)
+
+mysql>  SELECT title FROM tb1 UNION SELECT user FROM mysql.user UNION SELECT name FROM world.city LIMIT 10;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3555
+Current database: world
+
+ERROR 1146 (42S02): Table 'world.tb1' doesn't exist
+mysql>  SELECT title FROM tb1 UNION SELECT user FROM mysql.user UNION SELECT name FROM world.city LIMIT 10;
+ERROR 1146 (42S02): Table 'world.tb1' doesn't exist
+mysql> use mydb1
+No connection. Trying to reconnect...
+Connection id:    3568
+Current database: *** NONE ***
+
+Database changed
+mysql> SELECT title FROM tb1 UNION SELECT user FROM mysql.user UNION SELECT name FROM world.city LIMIT 10;
++----------------------------+
+| title                      |
++----------------------------+
+| JavaScript 2015            |
+| jQuery                     |
+| MySQL                      |
+| PHP7                       |
+| Pixi js                    |
+| Кулинария                  |
+| Пироговедение              |
+| mysql                      |
+| root                       |
+| mysql.sys                  |
++----------------------------+
+10 rows in set (0.01 sec)
+
+mysql>  SELECT title FROM tb1 UNION ALL SELECT user FROM mysql.user UNION ALL SELECT name FROM world.city LIMIT 10;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql>  SELECT title FROM tb1 UNION ALL SELECT user FROM mysql.user UNION ALL SELECT name FROM world.city LIMIT 10;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    3583
+Current database: mydb1
+
++----------------------------+
+| title                      |
++----------------------------+
+| JavaScript 2015            |
+| jQuery                     |
+| MySQL                      |
+| PHP7                       |
+| Pixi js                    |
+| Кулинария                  |
+| Кулинария                  |
+| Пироговедение              |
+| mysql                      |
+| root                       |
++----------------------------+
+10 rows in set (0.04 sec)
+
+mysql> (SELECT title FROM tb1) UNION ALL (SELECT user FROM mysql.user) UNION ALL (SELECT name FROM world.city LIMIT 10;)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    -> (SELECT title FROM tb1) UNION ALL (SELECT user FROM mysql.user) UNION ALL (SELECT name FROM world.city LIMIT 10;)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+(SELECT title FROM tb1) UNION ALL (SELECT user FROM mysql.user) UNION ALL (SEL' at line 1
+    ->  (SELECT title FROM tb1) UNION ALL (SELECT user FROM mysql.user) UNION ALL (SELECT name FROM world.city LIMIT 10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+ (SELECT title FROM tb1) UNION ALL (SELECT user FROM mysql.user) UNION ALL (SE' at line 1
+mysql>  (SELECT title FROM tb1) UNION ALL (SELECT user FROM mysql.user) UNION ALL (SELECT name FROM world.city LIMIT 10);
++----------------------------+
+| title                      |
++----------------------------+
+| JavaScript 2015            |
+| jQuery                     |
+| MySQL                      |
+| PHP7                       |
+| Pixi js                    |
+| Кулинария                  |
+| Кулинария                  |
+| Пироговедение              |
+| mysql                      |
+| root                       |
+| mysql.sys                  |
+| Kabul                      |
+| Qandahar                   |
+| Herat                      |
+| Mazar-e-Sharif             |
+| Amsterdam                  |
+| Rotterdam                  |
+| Haag                       |
+| Utrecht                    |
+| Eindhoven                  |
+| Tilburg                    |
++----------------------------+
+21 rows in set (0.00 sec)
+
+mysql> SELECT name, population FROM world.city WHERE countrycode = 'RUS' AND population < ALL (     SELECT population     FROM world.city     WHERE countrycode = 'USA' );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4192
+Current database: mydb1
+
+Empty set (0.05 sec)
+
+mysql> SELECT name, population FROM world.city WHERE countrycode = 'USA' AND population < ALL (     SELECT population     FROM world.city     WHERE countrycode = 'RUS' );
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT name, population FROM world.city WHERE countrycode = 'USA' AND population < ALL (     SELECT population     FROM world.city     WHERE countrycode = 'RUS' );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4197
+Current database: mydb1
+
++------------+------------+
+| name       | population |
++------------+------------+
+| Kenosha    |      89447 |
+| Elgin      |      89408 |
+| Odessa     |      89293 |
+| Carson     |      89089 |
+| Charleston |      89063 |
++------------+------------+
+5 rows in set (0.03 sec)
+
+mysql> SELECT count(*) FROM world.city c1 WHERE EXISTS (     SELECT name FROM world.city c2     WHERE c1.name = c2.name );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4272
+Current database: mydb1
+
++----------+
+| count(*) |
++----------+
+|     4079 |
++----------+
+1 row in set (3.06 sec)
+
+mysql> 
+mysql> SELECT country.name FROM world.country WHERE EXISTS (     SELECT name     FROM world.city     WHERE population > 1e6 );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4294
+Current database: mydb1
+
++----------------------------------------------+
+| name                                         |
++----------------------------------------------+
+| Aruba                                        |
+| Afghanistan                                  |
+| Angola                                       |
+| Anguilla                                     |
+| Albania                                      |
+| Andorra                                      |
+| Netherlands Antilles                         |
+| United Arab Emirates                         |
+| Argentina                                    |
+| Armenia                                      |
+| American Samoa                               |
+| Antarctica                                   |
+| French Southern territories                  |
+| Antigua and Barbuda                          |
+| Australia                                    |
+| Austria                                      |
+| Azerbaijan                                   |
+| Burundi                                      |
+| Belgium                                      |
+| Benin                                        |
+| Burkina Faso                                 |
+| Bangladesh                                   |
+| Bulgaria                                     |
+| Bahrain                                      |
+| Bahamas                                      |
+| Bosnia and Herzegovina                       |
+| Belarus                                      |
+| Belize                                       |
+| Bermuda                                      |
+| Bolivia                                      |
+| Brazil                                       |
+| Barbados                                     |
+| Brunei                                       |
+| Bhutan                                       |
+| Bouvet Island                                |
+| Botswana                                     |
+| Central African Republic                     |
+| Canada                                       |
+| Cocos (Keeling) Islands                      |
+| Switzerland                                  |
+| Chile                                        |
+| China                                        |
+| Côte d’Ivoire                                |
+| Cameroon                                     |
+| Congo, The Democratic Republic of the        |
+| Congo                                        |
+| Cook Islands                                 |
+| Colombia                                     |
+| Comoros                                      |
+| Cape Verde                                   |
+| Costa Rica                                   |
+| Cuba                                         |
+| Christmas Island                             |
+| Cayman Islands                               |
+| Cyprus                                       |
+| Czech Republic                               |
+| Germany                                      |
+| Djibouti                                     |
+| Dominica                                     |
+| Denmark                                      |
+| Dominican Republic                           |
+| Algeria                                      |
+| Ecuador                                      |
+| Egypt                                        |
+| Eritrea                                      |
+| Western Sahara                               |
+| Spain                                        |
+| Estonia                                      |
+| Ethiopia                                     |
+| Finland                                      |
+| Fiji Islands                                 |
+| Falkland Islands                             |
+| France                                       |
+| Faroe Islands                                |
+| Micronesia, Federated States of              |
+| Gabon                                        |
+| United Kingdom                               |
+| Georgia                                      |
+| Ghana                                        |
+| Gibraltar                                    |
+| Guinea                                       |
+| Guadeloupe                                   |
+| Gambia                                       |
+| Guinea-Bissau                                |
+| Equatorial Guinea                            |
+| Greece                                       |
+| Grenada                                      |
+| Greenland                                    |
+| Guatemala                                    |
+| French Guiana                                |
+| Guam                                         |
+| Guyana                                       |
+| Hong Kong                                    |
+| Heard Island and McDonald Islands            |
+| Honduras                                     |
+| Croatia                                      |
+| Haiti                                        |
+| Hungary                                      |
+| Indonesia                                    |
+| India                                        |
+| British Indian Ocean Territory               |
+| Ireland                                      |
+| Iran                                         |
+| Iraq                                         |
+| Iceland                                      |
+| Israel                                       |
+| Italy                                        |
+| Jamaica                                      |
+| Jordan                                       |
+| Japan                                        |
+| Kazakstan                                    |
+| Kenya                                        |
+| Kyrgyzstan                                   |
+| Cambodia                                     |
+| Kiribati                                     |
+| Saint Kitts and Nevis                        |
+| South Korea                                  |
+| Kuwait                                       |
+| Laos                                         |
+| Lebanon                                      |
+| Liberia                                      |
+| Libyan Arab Jamahiriya                       |
+| Saint Lucia                                  |
+| Liechtenstein                                |
+| Sri Lanka                                    |
+| Lesotho                                      |
+| Lithuania                                    |
+| Luxembourg                                   |
+| Latvia                                       |
+| Macao                                        |
+| Morocco                                      |
+| Monaco                                       |
+| Moldova                                      |
+| Madagascar                                   |
+| Maldives                                     |
+| Mexico                                       |
+| Marshall Islands                             |
+| Macedonia                                    |
+| Mali                                         |
+| Malta                                        |
+| Myanmar                                      |
+| Mongolia                                     |
+| Northern Mariana Islands                     |
+| Mozambique                                   |
+| Mauritania                                   |
+| Montserrat                                   |
+| Martinique                                   |
+| Mauritius                                    |
+| Malawi                                       |
+| Malaysia                                     |
+| Mayotte                                      |
+| Namibia                                      |
+| New Caledonia                                |
+| Niger                                        |
+| Norfolk Island                               |
+| Nigeria                                      |
+| Nicaragua                                    |
+| Niue                                         |
+| Netherlands                                  |
+| Norway                                       |
+| Nepal                                        |
+| Nauru                                        |
+| New Zealand                                  |
+| Oman                                         |
+| Pakistan                                     |
+| Panama                                       |
+| Pitcairn                                     |
+| Peru                                         |
+| Philippines                                  |
+| Palau                                        |
+| Papua New Guinea                             |
+| Poland                                       |
+| Puerto Rico                                  |
+| North Korea                                  |
+| Portugal                                     |
+| Paraguay                                     |
+| Palestine                                    |
+| French Polynesia                             |
+| Qatar                                        |
+| Réunion                                      |
+| Romania                                      |
+| Russian Federation                           |
+| Rwanda                                       |
+| Saudi Arabia                                 |
+| Sudan                                        |
+| Senegal                                      |
+| Singapore                                    |
+| South Georgia and the South Sandwich Islands |
+| Saint Helena                                 |
+| Svalbard and Jan Mayen                       |
+| Solomon Islands                              |
+| Sierra Leone                                 |
+| El Salvador                                  |
+| San Marino                                   |
+| Somalia                                      |
+| Saint Pierre and Miquelon                    |
+| Sao Tome and Principe                        |
+| Suriname                                     |
+| Slovakia                                     |
+| Slovenia                                     |
+| Sweden                                       |
+| Swaziland                                    |
+| Seychelles                                   |
+| Syria                                        |
+| Turks and Caicos Islands                     |
+| Chad                                         |
+| Togo                                         |
+| Thailand                                     |
+| Tajikistan                                   |
+| Tokelau                                      |
+| Turkmenistan                                 |
+| East Timor                                   |
+| Tonga                                        |
+| Trinidad and Tobago                          |
+| Tunisia                                      |
+| Turkey                                       |
+| Tuvalu                                       |
+| Taiwan                                       |
+| Tanzania                                     |
+| Uganda                                       |
+| Ukraine                                      |
+| United States Minor Outlying Islands         |
+| Uruguay                                      |
+| United States                                |
+| Uzbekistan                                   |
+| Holy See (Vatican City State)                |
+| Saint Vincent and the Grenadines             |
+| Venezuela                                    |
+| Virgin Islands, British                      |
+| Virgin Islands, U.S.                         |
+| Vietnam                                      |
+| Vanuatu                                      |
+| Wallis and Futuna                            |
+| Samoa                                        |
+| Yemen                                        |
+| Yugoslavia                                   |
+| South Africa                                 |
+| Zambia                                       |
+| Zimbabwe                                     |
++----------------------------------------------+
+239 rows in set (0.04 sec)
+
+mysql> SELECT country.name FROM world.country WHERE EXISTS (     SELECT name     FROM world.city     WHERE population > 1e6 RAND     countrycode = code );
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT country.name FROM world.country WHERE EXISTS (     SELECT name     FROM world.city     WHERE population > 1e6 RAND     countrycode = code );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4301
+Current database: mydb1
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'RAND     countrycode = code )' at line 1
+mysql> SELECT country.name FROM world.country WHERE EXISTS (     SELECT name     FROM world.city     WHERE population > 1e6 RAND     countrycode = code );SELECT country.name FROM world.country WHERE EXISTS (     SELECT name     FROM world.city     WHERE population > 1e6 AND     countrycode = code );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'RAND     countrycode = code )' at line 1
++---------------------------------------+
+| name                                  |
++---------------------------------------+
+| Afghanistan                           |
+| Angola                                |
+| Argentina                             |
+| Armenia                               |
+| Australia                             |
+| Austria                               |
+| Azerbaijan                            |
+| Bangladesh                            |
+| Bulgaria                              |
+| Belarus                               |
+| Brazil                                |
+| Canada                                |
+| Chile                                 |
+| China                                 |
+| Côte d’Ivoire                         |
+| Cameroon                              |
+| Congo, The Democratic Republic of the |
+| Colombia                              |
+| Cuba                                  |
+| Czech Republic                        |
+| Germany                               |
+| Dominican Republic                    |
+| Algeria                               |
+| Ecuador                               |
+| Egypt                                 |
+| Spain                                 |
+| Ethiopia                              |
+| France                                |
+| United Kingdom                        |
+| Georgia                               |
+| Ghana                                 |
+| Guinea                                |
+| Hong Kong                             |
+| Hungary                               |
+| Indonesia                             |
+| India                                 |
+| Iran                                  |
+| Iraq                                  |
+| Italy                                 |
+| Japan                                 |
+| Kazakstan                             |
+| Kenya                                 |
+| South Korea                           |
+| Lebanon                               |
+| Libyan Arab Jamahiriya                |
+| Morocco                               |
+| Mexico                                |
+| Myanmar                               |
+| Mozambique                            |
+| Malaysia                              |
+| Nigeria                               |
+| Pakistan                              |
+| Peru                                  |
+| Philippines                           |
+| Poland                                |
+| North Korea                           |
+| Romania                               |
+| Russian Federation                    |
+| Saudi Arabia                          |
+| Sudan                                 |
+| Singapore                             |
+| Syria                                 |
+| Thailand                              |
+| Turkey                                |
+| Taiwan                                |
+| Tanzania                              |
+| Ukraine                               |
+| Uruguay                               |
+| United States                         |
+| Uzbekistan                            |
+| Venezuela                             |
+| Vietnam                               |
+| Yugoslavia                            |
+| South Africa                          |
+| Zambia                                |
+| Zimbabwe                              |
++---------------------------------------+
+76 rows in set (0.01 sec)
+
+mysql> SELECT country.name FROM world.country WHERE NOT EXISTS (     SELECT name     FROM world.city     WHERE population >= 1e6 AND     countrycode = code );
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> SELECT country.name FROM world.country WHERE NOT EXISTS (     SELECT name     FROM world.city     WHERE population >= 1e6 AND     countrycode = code );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4317
+Current database: mydb1
+
++----------------------------------------------+
+| name                                         |
++----------------------------------------------+
+| Aruba                                        |
+| Anguilla                                     |
+| Albania                                      |
+| Andorra                                      |
+| Netherlands Antilles                         |
+| United Arab Emirates                         |
+| American Samoa                               |
+| Antarctica                                   |
+| French Southern territories                  |
+| Antigua and Barbuda                          |
+| Burundi                                      |
+| Belgium                                      |
+| Benin                                        |
+| Burkina Faso                                 |
+| Bahrain                                      |
+| Bahamas                                      |
+| Bosnia and Herzegovina                       |
+| Belize                                       |
+| Bermuda                                      |
+| Bolivia                                      |
+| Barbados                                     |
+| Brunei                                       |
+| Bhutan                                       |
+| Bouvet Island                                |
+| Botswana                                     |
+| Central African Republic                     |
+| Cocos (Keeling) Islands                      |
+| Switzerland                                  |
+| Congo                                        |
+| Cook Islands                                 |
+| Comoros                                      |
+| Cape Verde                                   |
+| Costa Rica                                   |
+| Christmas Island                             |
+| Cayman Islands                               |
+| Cyprus                                       |
+| Djibouti                                     |
+| Dominica                                     |
+| Denmark                                      |
+| Eritrea                                      |
+| Western Sahara                               |
+| Estonia                                      |
+| Finland                                      |
+| Fiji Islands                                 |
+| Falkland Islands                             |
+| Faroe Islands                                |
+| Micronesia, Federated States of              |
+| Gabon                                        |
+| Gibraltar                                    |
+| Guadeloupe                                   |
+| Gambia                                       |
+| Guinea-Bissau                                |
+| Equatorial Guinea                            |
+| Greece                                       |
+| Grenada                                      |
+| Greenland                                    |
+| Guatemala                                    |
+| French Guiana                                |
+| Guam                                         |
+| Guyana                                       |
+| Heard Island and McDonald Islands            |
+| Honduras                                     |
+| Croatia                                      |
+| Haiti                                        |
+| British Indian Ocean Territory               |
+| Ireland                                      |
+| Iceland                                      |
+| Israel                                       |
+| Jamaica                                      |
+| Kyrgyzstan                                   |
+| Cambodia                                     |
+| Kiribati                                     |
+| Saint Kitts and Nevis                        |
+| Kuwait                                       |
+| Laos                                         |
+| Liberia                                      |
+| Saint Lucia                                  |
+| Liechtenstein                                |
+| Sri Lanka                                    |
+| Lesotho                                      |
+| Lithuania                                    |
+| Luxembourg                                   |
+| Latvia                                       |
+| Macao                                        |
+| Monaco                                       |
+| Moldova                                      |
+| Madagascar                                   |
+| Maldives                                     |
+| Marshall Islands                             |
+| Macedonia                                    |
+| Mali                                         |
+| Malta                                        |
+| Mongolia                                     |
+| Northern Mariana Islands                     |
+| Mauritania                                   |
+| Montserrat                                   |
+| Martinique                                   |
+| Mauritius                                    |
+| Malawi                                       |
+| Mayotte                                      |
+| Namibia                                      |
+| New Caledonia                                |
+| Niger                                        |
+| Norfolk Island                               |
+| Nicaragua                                    |
+| Niue                                         |
+| Netherlands                                  |
+| Norway                                       |
+| Nepal                                        |
+| Nauru                                        |
+| New Zealand                                  |
+| Oman                                         |
+| Panama                                       |
+| Pitcairn                                     |
+| Palau                                        |
+| Papua New Guinea                             |
+| Puerto Rico                                  |
+| Portugal                                     |
+| Paraguay                                     |
+| Palestine                                    |
+| French Polynesia                             |
+| Qatar                                        |
+| Réunion                                      |
+| Rwanda                                       |
+| Senegal                                      |
+| South Georgia and the South Sandwich Islands |
+| Saint Helena                                 |
+| Svalbard and Jan Mayen                       |
+| Solomon Islands                              |
+| Sierra Leone                                 |
+| El Salvador                                  |
+| San Marino                                   |
+| Somalia                                      |
+| Saint Pierre and Miquelon                    |
+| Sao Tome and Principe                        |
+| Suriname                                     |
+| Slovakia                                     |
+| Slovenia                                     |
+| Sweden                                       |
+| Swaziland                                    |
+| Seychelles                                   |
+| Turks and Caicos Islands                     |
+| Chad                                         |
+| Togo                                         |
+| Tajikistan                                   |
+| Tokelau                                      |
+| Turkmenistan                                 |
+| East Timor                                   |
+| Tonga                                        |
+| Trinidad and Tobago                          |
+| Tunisia                                      |
+| Tuvalu                                       |
+| Uganda                                       |
+| United States Minor Outlying Islands         |
+| Holy See (Vatican City State)                |
+| Saint Vincent and the Grenadines             |
+| Virgin Islands, British                      |
+| Virgin Islands, U.S.                         |
+| Vanuatu                                      |
+| Wallis and Futuna                            |
+| Samoa                                        |
+| Yemen                                        |
++----------------------------------------------+
+162 rows in set (0.04 sec)
+
+mysql> DROP VIEW IF EXISTS fantastika; CREATE VIEW fantastika AS SELECT * FROM tb1 WHERE genre = 'фантастика';
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4436
+Current database: mydb1
+
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select databases;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+mysql> select databases;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4446
+Current database: mydb1
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databases' at line 1
+mysql> select database;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> use mydb1
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_mydb1 |
++-----------------+
+| fantastika      |
+| tb1             |
+| tb2             |
+| tb3             |
+| tb5             |
++-----------------+
+5 rows in set (0.01 sec)
+
+mysql> DROP TABLE IF EXISTS product; CREATE TABLE product ( id INT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR(70) NOT NULL DEFAULT '', price FLOAT NOT NULL DEFAULT 0, quo FLOAT NOT NULL DEFAULT 0, PRIMARY KEY (id) );
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4534
+Current database: mydb1
+
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO product VALUES (1, 'Товар 1', 123, 200), (2, 'Товар 2', 150, 200), (3, 'Товар 3', 187, 300), (4, 'Товар 4', 300, 400), (5, 'Товар 5', 225, 500); DROP VIEW IF EXISTS product_with_tax; CREATE DEFINER='root'@'localhost' SQL SECURITY DEFINER VIEW product_with_tax AS SELECT *, price * 1.18 AS price_tax FROM product WHERE quo > 0;
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> SELECT * FROM product_with_tax;
++----+--------------+-------+-----+-----------+
+| id | title        | price | quo | price_tax |
++----+--------------+-------+-----+-----------+
+|  1 | Товар 1      |   123 | 200 |    145.14 |
+|  2 | Товар 2      |   150 | 200 |       177 |
+|  3 | Товар 3      |   187 | 300 |    220.66 |
+|  4 | Товар 4      |   300 | 400 |       354 |
+|  5 | Товар 5      |   225 | 500 |     265.5 |
++----+--------------+-------+-----+-----------+
+5 rows in set (0.01 sec)
+
+mysql> DROP VIEW IF EXISTS completeOrders; CREATE VIEW completeOrders AS SELECT idorder, time, status FROM `order` WHERE status = 'выполнен' \g SELECT * FROM completeOrders;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1146 (42S02): Table 'mydb1.order' doesn't exist
+ERROR 1146 (42S02): Table 'mydb1.completeorders' doesn't exist
+mysql> DROP VIEW IF EXISTS completeOrders; CREATE VIEW completeOrders AS SELECT idorder, time, status FROM `order` WHERE status = 'выполнен' \g SELECT * FROM completeOrders;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1146 (42S02): Table 'mydb1.order' doesn't exist
+ERROR 1146 (42S02): Table 'mydb1.completeorders' doesn't exist
+mysql> DROP VIEW IF EXISTS books_piter; CREATE VIEW books_piter AS SELECT id, title, author, cover FROM books WHERE publisher = 'Питер'; \g
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4546
+Current database: mydb1
+
+ERROR 1146 (42S02): Table 'mydb1.books' doesn't exist
+ERROR: 
+No query specified
+
+mysql> SELECT * FROM books_piter;
+ERROR 1146 (42S02): Table 'mydb1.books_piter' doesn't exist
+mysql> show tables;
++------------------+
+| Tables_in_mydb1  |
++------------------+
+| fantastika       |
+| product          |
+| product_with_tax |
+| tb1              |
+| tb2              |
+| tb3              |
+| tb5              |
++------------------+
+7 rows in set (0.00 sec)
+
+mysql> use product
+ERROR 1049 (42000): Unknown database 'product'
+mysql> 	INSERT INTO product VALUES (1, 'Товар 1', 123, 200), (2, 'Товар 2', 150, 200), (3, 'Товар 3', 187, 300), (4, 'Товар 4', 300, 400), (5, 'Товар 5', 225, 500); DROP VIEW IF EXISTS product_with_tax; CREATE DEFINER='root'@'localhost' SQL SECURITY DEFINER VIEW product_with_tax AS SELECT *, price * 1.18 AS price_tax FROM product WHERE quo > 
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+Query OK, 0 rows affected (0.00 sec)
+
+    -> ^C
+mysql> INSERT INTO product VALUES (1, 'Товар 1', 123, 200), (2, 'Товар 2', 150, 200), (3, 'Товар 3', 187, 300), (4, 'Товар 4', 300, 400), (5, 'Товар 5', 225, 500); DROP VIEW IF EXISTS product_with_tax; CREATE DEFINER='root'@'localhost' SQL SECURITY DEFINER VIEW product_with_tax AS SELECT *, price * 1.18 AS price_tax FROM product WHERE quo > 0;
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> SELECT * FROM product_with_tax;
++----+--------------+-------+-----+-----------+
+| id | title        | price | quo | price_tax |
++----+--------------+-------+-----+-----------+
+|  1 | Товар 1      |   123 | 200 |    145.14 |
+|  2 | Товар 2      |   150 | 200 |       177 |
+|  3 | Товар 3      |   187 | 300 |    220.66 |
+|  4 | Товар 4      |   300 | 400 |       354 |
+|  5 | Товар 5      |   225 | 500 |     265.5 |
++----+--------------+-------+-----+-----------+
+5 rows in set (0.00 sec)
+
+mysql> DROP VIEW IF EXISTS completeOrders; CREATE VIEW completeOrders AS SELECT idorder, time, status FROM `order` WHERE status = 'выполнен' \g SELECT * FROM completeOrders;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1146 (42S02): Table 'mydb1.order' doesn't exist
+ERROR 1146 (42S02): Table 'mydb1.completeorders' doesn't exist
+mysql> SHOW CREATE VIEW completeOrders;
+ERROR 1146 (42S02): Table 'mydb1.completeorders' doesn't exist
+mysql> USE mydb1;  DROP PROCEDURE IF EXISTS pc1; CREATE PROCEDURE pc1() BEGIN  END; CALL pc1();
+No connection. Trying to reconnect...
+Connection id:    4694
+Current database: *** NONE ***
+
+Database changed
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DROP PROCEDURE IF EXISTS pc2; delimiter $ CREATE PROCEDURE pc2() BEGIN     SELECT 'Hello world!' END $ delimiter ; CALL pc2();
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+    -> ^C
+mysql> DROP PROCEDURE IF EXISTS pc2; delimiter $ CREATE PROCEDURE pc2() BEGIN     SELECT 'Hello world!' END $ delimiter ; CALL pc2();
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    -> ^C
+mysql> DROP PROCEDURE IF EXISTS pc3; delimiter $ CREATE PROCEDURE pc3() BEGIN SELECT 'Hello world!' END $ delimiter ; CALL pc3();
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    -> DROP PROCEDURE IF EXISTS pc3; delimiter $ CREATE PROCEDURE pc3(IN a1 CHAR(2),OUT a2 INT,INOUT a3 FLOAT(6,2)) BEGIN SELECT a1, a2, a3 SET a2 = 100; SET a3 = a3 + 200; END $ delimiter ;
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4724
+Current database: mydb1
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET a2 = 100' at line 1
+ERROR 1193 (HY000): Unknown system variable 'a3'
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $ delimiter' at line 1
+mysql> DROP PROCEDURE IF EXISTS pc3; delimiter $ CREATE PROCEDURE pc3(IN a1 CHAR(2),OUT a2 INT,INOUT a3 FLOAT(6,2)) BEGIN     SELECT a1, a2, a3;     SET a2 = 100;     SET a3 = a3 + 200; END $ delimiter ;
+ERROR 2013 (HY000): Lost connection to MySQL server during query
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    4728
+Current database: mydb1
+
+ERROR 1193 (HY000): Unknown system variable 'a2'
+    -> DROP PROCEDURE IF EXISTS pc3; delimiter $ CREATE PROCEDURE pc3(IN a1 CHAR(2), OUT a2 INT, INOUT a3 FLOAT(6,2)) BEGIN     SELECT a1, a2, a3;     SET a2 = 100;     SET a3 = a3 + 200; END $ delimiter ;
+    -> ^C
+mysql> DROP PROCEDURE IF EXISTS pc3; delimiter $ CREATE PROCEDURE pc3(IN a1 CHAR(2), OUT a2 INT, INOUT a3 FLOAT(6,2)) BEGIN     SELECT a1, a2, a3;     SET a2 = 100;     SET a3 = a3 + 200; END $ delimiter ;
+    -> $
+    -> ;
+    -> ^C
+mysql> ^C
+mysql> DROP PROCEDURE IF EXISTS pc3; delimiter $ CREATE PROCEDURE pc3(IN a1 CHAR(2), OUT a2 INT, INOUT a3 FLOAT(6,2)) BEGIN     SELECT a1, a2, a3;     SET a2 = 100;     SET a3 = a3 + 200; END $ delimiter;
+    -> ^C
+mysql> Terminal close -- exit!
